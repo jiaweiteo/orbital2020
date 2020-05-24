@@ -1,34 +1,75 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import BackBtn from '../components/BackBtn';
+import { Dropdown } from 'react-native-material-dropdown';
 
-export default function LinksScreen() {
+
+
+export default class ExpenseScreen extends React.Component {
+  
+
+  
+  state = {
+    text: "",
+    cost: "",
+    or: true,
+    warning: ""
+  };
+  render() {
+    let data = [{
+      value: 'Grocery',
+    }, {
+      value: 'Food',
+    }, {
+      value: 'Drinks',
+    }, {
+      value: 'Rent',
+    }, {
+      value: 'Transport',
+    }, {
+      value: 'Utilites',
+    }, {
+      value: 'Insurance',
+    }, {
+      value: 'Entertainment',
+    }, {
+      value: 'Others',
+    }
+  ];
+
+
   return (
+    
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <OptionButton
-        icon="md-school"
-        label="Read the Expo documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
+      
+      {/* Input Text */}
+      <TextInput style = {styles.item}
+        placeholder = "Item"
+        onChangeText={text => this.setState({ text })}
+        value={this.state.text}
+
+      />
+        {/* Slide down choices */}
+      <Dropdown style = {styles.category}
+        itemCount = {5}
+        label="Category"
+        data = {data}
       />
 
-      <OptionButton
-        icon="md-compass"
-        label="Read the React Navigation documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
-      />
+        {/* Numbers only */}
+      <TextInput style = {styles.item}
+        placeholder = "Cost (input numbers only!)"
+        onChangeText = {cost => this.setState({ cost})}
+        />
 
-      <OptionButton
-        icon="ios-chatboxes"
-        label="Ask a question on the forums"
-        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
-        isLastOption
-      />
+      <BackBtn />
     </ScrollView>
   );
 }
-
+}
 function OptionButton({ icon, label, onPress, isLastOption }) {
   return (
     <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
@@ -71,4 +112,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginTop: 1,
   },
+  item: {
+    fontSize: 15,
+    alignSelf: 'center',
+  },
+  category: {
+    alignSelf:'center',
+  }
 });

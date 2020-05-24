@@ -1,34 +1,41 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
+
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import Portfolio from '../screens/Portfolio';
+import ExpenseScreen from '../screens/ExpenseScreen'
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
 export default function BottomTabNavigator({ navigation, route }) {
-  // Set the header title on the parent stack navigator depending on the
-  // currently active tab. Learn more in the documentation:
-  // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: 'Get Started',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
+        name = "addExpense"
+        component = {ExpenseScreen}
+        options = {{
+          title: 'Add Expense',
+          tabBarIcon: ({focused}) => <TabBarIcon focused = {focused} name = "ios-add" />,
         }}
       />
       <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
+        name="Home"
+        component={HomeScreen}
         options={{
-          title: 'Resources',
+          title: 'Home',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="logo-usd" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Portfolio"
+        component={Portfolio}
+        options={{
+          title: 'Portfolio',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
         }}
       />
@@ -41,8 +48,10 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'How to get started';
-    case 'Links':
-      return 'Links to learn more';
+      return 'SmartTrack';
+    case 'Portfolio':
+      return 'Current Portfolio';
+    case 'addExpense':
+      return 'Add new expense'
   }
 }
