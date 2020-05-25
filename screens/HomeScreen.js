@@ -2,10 +2,12 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import TrackBudget from '../components/TrackBudget'
 import { MonoText } from '../components/StyledText';
+import budget from '../components/TrackBudget';
 
-export default function HomeScreen() {
+
+export default function HomeScreen(props) {
   const budgetDate = 15;
   var date = new Date().getDate();
   var year = new Date().getFullYear();
@@ -29,18 +31,19 @@ export default function HomeScreen() {
           {/* Add Budget Component from budget plan */}
           <Text style={styles.headerText}>Current Budget for the Month: </Text>
           <View>
-            <Text style = {styles.expenseText}>$1000</Text>
+            <Text style = {styles.expenseText}>${budget.budget()}</Text>
           </View>
 
             {/* Add current expenses from porfolio page */}
           <Text style={styles.headerText}>Current Expenses for the Month: </Text>
           <View>
-            <Text style = {styles.expenseText}>$500</Text>
+            <Text style = {styles.expenseText}>${budget.expenses()}</Text>
           </View>
-          
+        
+            {/*  Budget - Expenses */}
           <Text style={styles.headerText}>Current Budget left: </Text>
           <View>
-            <Text style = {styles.expenseText}>$500</Text>
+            <Text style = {styles.expenseText}>{budget.remainder()}</Text>
           </View>
 
           <Text style={styles.headerText}>Days Left to end of Monthy Budget: </Text>

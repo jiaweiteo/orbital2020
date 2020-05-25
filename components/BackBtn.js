@@ -1,26 +1,15 @@
 import React from "react";
-import * as WebBrowser from 'expo-web-browser';
-import { StyleSheet } from "react-native";
-import { Icon } from "react-native-elements";
-import PropTypes from "prop-types";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
+
 
 export default function BackBtn(props) {
   return (
-    <Icon style = {styles.icon}
-      size={50}
-      containerStyle={[styles.back, props.style]}
-      name="check"
-      type="font-awesome"
-      color="#0a0082"
-      onPress = { () =>  alert("Submitted!")}
-    />
+    <TouchableOpacity style={[styles.container, props.style]} onPress={props.onPress}>
+    <Text style={styles.text}>Submit</Text>
+  </TouchableOpacity>
   );
 }
 
-BackBtn.propTypes = {
-  style: PropTypes.object,
-  back: PropTypes.func
-};
 
 const styles = StyleSheet.create({
   icon : {
@@ -35,5 +24,18 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: "#bbb"
     
+  },
+
+  container: {
+    marginTop: 20,
+    backgroundColor: '#003D7C',
+  },
+  text: {
+    fontSize: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 5,
+    color: 'white',
+    textAlign: 'center'
   }
 });

@@ -20,6 +20,12 @@ export default function Portfolio() {
         label="View Past Porfolio"
         onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
       />
+      
+      <OptionButton
+        icon="md-compass"
+        label= "Create New Budget"
+        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
+      />
 
       <OptionButton
         icon="md-compass"

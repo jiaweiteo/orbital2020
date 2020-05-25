@@ -5,20 +5,41 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import BackBtn from '../components/BackBtn';
 import { Dropdown } from 'react-native-material-dropdown';
+import PropTypes from "prop-types";
+import TrackBudget from '../components/TrackBudget'
+import budget from '../components/TrackBudget';
+import HomeScreen from './HomeScreen';
 
 
 
 export default class ExpenseScreen extends React.Component {
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: "",
+      cost: "",
+      category: ""
+    };
+  }
 
-  
-  state = {
-    text: "",
-    cost: "",
-    or: true,
-    warning: ""
-  };
+  updateItem = text => this.setState({text})
+
+  updateCost = cost => this.setState({cost})
+
+  updateCategory = category => this.setState({category})
+
+  reset = () => {
+    this.setState({
+      cost: '',
+      text: '',
+      category: '',
+    })
+  }
+
   render() {
+    const { text, cost, category} = this.state;
+
+
     let data = [{
       value: 'Grocery',
     }, {
@@ -48,47 +69,46 @@ export default class ExpenseScreen extends React.Component {
       {/* Input Text */}
       <TextInput style = {styles.item}
         placeholder = "Item"
-        onChangeText={text => this.setState({ text })}
-        value={this.state.text}
-
+        onChangeText={this.updateItem}
+        value={text}
+        ref={input => { this.textInput = input }}
       />
+
         {/* Slide down choices */}
       <Dropdown style = {styles.category}
         itemCount = {5}
         label="Category"
         data = {data}
+        onChangeText = {this.updateCategory}
+        value = {category}
       />
 
         {/* Numbers only */}
       <TextInput style = {styles.item}
         placeholder = "Cost (input numbers only!)"
-        onChangeText = {cost => this.setState({ cost})}
+        onChangeText = {this.updateCost}
+        value = {cost}
+        ref={input => { this.textInput = input }}
         />
 
-      <BackBtn />
+      <BackBtn 
+        onPress = { () =>  {this.reset(); alert("Submitted"); 
+        budget.updateExpenses(cost)}}></BackBtn>
+            
+            
     </ScrollView>
+
+   
   );
 }
 }
-function OptionButton({ icon, label, onPress, isLastOption }) {
-  return (
-    <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.optionIconContainer}>
-          <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
-        </View>
-        <View style={styles.optionTextContainer}>
-          <Text style={styles.optionText}>{label}</Text>
-        </View>
-      </View>
-    </RectButton>
-  );
-}
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fafafa',
+    flexDirection: 'column',
   },
   contentContainer: {
     paddingTop: 15,
@@ -113,10 +133,13 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   item: {
+    marginTop: 20,
+    marginBottom: 20,
     fontSize: 15,
     alignSelf: 'center',
   },
   category: {
+    marginBottom: 20,
     alignSelf:'center',
   }
 });
