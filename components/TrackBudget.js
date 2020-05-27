@@ -12,29 +12,58 @@ class TrackBudget extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          budget: 1000,
-          expenses: 500,
-          cat: []
+          budget: 0,
+          expenses: 0,
+          itemH : [],
+          costH : [],
+          catH : [],
+          history: [],
+          date: 0,
         };
       }
 
+      updateDate(dd) {
+        this.state.date = 0
+        const numdd = Number(dd.substring(0,2))
+        this.state.date += numdd
+      }
 
       updateExpenses(c) {
-        this.setState({
-            expenses: Number(c) + Number(this.state.expenses)}
-        );
         this.state.expenses += Number(c)
       }
 
+      updateBudget(money) {
+        this.state.budget = 0
+        this.state.budget += Number(money)
+        console.log(money)
+      }
+  
+      updateHistory(item, cost, category) {
+        this.state.itemH.push(item + "\n");
+        this.state.costH.push(cost + "\n");
+        this.state.catH.push(category + "\n");
+        this.state.history.push([String(item), String(cost), String(category)])
+      }
+
+      getBudgetDate() {
+        return this.state.date
+      }
+
       budget() {
-          () => this.setState({
-              budget: 10000
-          })
           return this.state.budget
       }
 
       expenses() {
-          return this.state.expenses
+        if (this.state.costH === null) {
+          return 0
+        } else {
+          let c = 0
+          for (let x = 0; x < this.state.costH.lenght; x++) {
+            c += this.state.costH[x]
+          }
+          this.state.expenses = c
+          return c
+        }
       }
 
       remainder() {

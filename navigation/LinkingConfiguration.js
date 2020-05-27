@@ -4,11 +4,11 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     Root: {
-      path: 'root',
+      path: 'Root',
       screens: {
-        Home: 'home',
-        Porfolio: 'portfolio',
-        Expenses: 'expenses'
+        Home: 'HomeScreen',
+        Porfolio: 'Portfolio',
+        Expenses: 'ExpenseScreen'
       },
     },
   },

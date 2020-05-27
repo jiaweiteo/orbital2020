@@ -6,6 +6,14 @@ import { Platform, StatusBar, StyleSheet, View, Text, Button } from 'react-nativ
 import useCachedResources from './hooks/useCachedResources';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
+import CurrentPort from './screens/CurrentPort'
+import HomeScreen from './screens/HomeScreen';
+import Portfolio from './screens/Portfolio'
+import PastPort from './screens/PastPort'
+import CreateBudget from './screens/CreateBudget'
+import EditBudget from './screens/EditBudget'
+import ViewCategory from './screens/ViewCategory'
+
 
 const Stack = createStackNavigator();
 
@@ -21,6 +29,15 @@ export default function App(props) {
         <NavigationContainer linking={LinkingConfiguration}>
           <Stack.Navigator>
             <Stack.Screen name="Root" component={BottomTabNavigator} />
+            <Stack.Screen name = "Home" component= {HomeScreen} />
+            <Stack.Screen name = "Port" component= {Portfolio} />
+            <Stack.Screen name = "My Portfolio" component= {CurrentPort} />
+            <Stack.Screen name = "Past Portfolio" component = {PastPort} />
+            <Stack.Screen name = "Create New Budget" component = {CreateBudget} />
+            <Stack.Screen name = "Edit Current Budget" component = {EditBudget} />
+            <Stack.Screen name = "View By Category" component = {ViewCategory} />
+
+
           </Stack.Navigator>
         </NavigationContainer>
       </View>

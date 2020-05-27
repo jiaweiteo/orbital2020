@@ -2,64 +2,69 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import TrackBudget from '../components/TrackBudget'
-import { MonoText } from '../components/StyledText';
+
 import budget from '../components/TrackBudget';
 
 
-export default function HomeScreen(props) {
-  const budgetDate = 15;
-  var date = new Date().getDate();
-  var year = new Date().getFullYear();
-  var month = new Date().getMonth() + 1;
-
-  return (
-    <View style={styles.container}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      
-      <Text style={styles.dateText}>{date + " " + monthInWords(month) + " " + year}</Text>
-
-        <View style={styles.welcomeContainer}>
-          <Image style = {styles.welcomeImage}
-            source={
-              require('../assets/images/Logo.png')
-            }
-          />
-        </View>
-            
-        <View style={styles.getStartedContainer}>
-          {/* Add Budget Component from budget plan */}
-          <Text style={styles.headerText}>Current Budget for the Month: </Text>
-          <View>
-            <Text style = {styles.expenseText}>${budget.budget()}</Text>
-          </View>
-
-            {/* Add current expenses from porfolio page */}
-          <Text style={styles.headerText}>Current Expenses for the Month: </Text>
-          <View>
-            <Text style = {styles.expenseText}>${budget.expenses()}</Text>
-          </View>
-        
-            {/*  Budget - Expenses */}
-          <Text style={styles.headerText}>Current Budget left: </Text>
-          <View>
-            <Text style = {styles.expenseText}>{budget.remainder()}</Text>
-          </View>
-
-          <Text style={styles.headerText}>Days Left to end of Monthy Budget: </Text>
-          <View>
-            <Text style = {styles.expenseText}> {daysLeft(date, month, budgetDate)}</Text>
-          </View>
-
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
-
-HomeScreen.navigationOptions = {
-  header: null,
+class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Home',
 };
+
+
+  render() {
+    const budgetDate = budget.getBudgetDate();
+    var date = new Date().getDate();
+    var year = new Date().getFullYear();
+    var month = new Date().getMonth() + 1;
+
+    return (
+      <View style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        
+        <Text style={styles.dateText}>{date + " " + monthInWords(month) + " " + year}</Text>
+
+          <View style={styles.welcomeContainer}>
+            <Image style = {styles.welcomeImage}
+              source={
+                require('../assets/images/Logo.png')
+              }
+            />
+          </View>
+              
+          <View style={styles.getStartedContainer}>
+            {/* Add Budget Component from budget plan */}
+            <Text style={styles.headerText}>Current Budget for the Month: </Text>
+            <View>
+              <Text style = {styles.expenseText}>${budget.budget()}</Text>
+            </View>
+
+              {/* Add current expenses from porfolio page */}
+            <Text style={styles.headerText}>Current Expenses for the Month: </Text>
+            <View>
+              <Text style = {styles.expenseText}>${budget.state.expenses}</Text>
+            </View>
+
+              {/*  Budget - Expenses */}
+            <Text style={styles.headerText}>Current Budget left: </Text>
+            <View>
+              <Text style = {styles.expenseText}>{budget.remainder()}</Text>
+            </View>
+
+            <Text style={styles.headerText}>Days Left to end of Monthy Budget: </Text>
+            <View>
+              <Text style = {styles.expenseText}> {daysLeft(date, month, budgetDate)}</Text>
+            </View>
+
+          </View>
+        </ScrollView>
+      </View>
+    );
+    }
+
+  }
+
+
 
 function monthInWords(month) {
   if (month == 1) {
@@ -90,6 +95,9 @@ function monthInWords(month) {
 }
 
 function daysLeft(date, month, budgetDate) {
+  if (budgetDate === 0) {
+    return "No Budget Plan Yet"
+  }
   var daysInMonth = 0
   if (month === "1" || month === "3" || month === "5" || month === "7" || month === "8" || month === "10" || month === "12") {
     daysInMonth = 31    
@@ -153,3 +161,5 @@ const styles = StyleSheet.create({
   },
 
 });
+
+export default HomeScreen

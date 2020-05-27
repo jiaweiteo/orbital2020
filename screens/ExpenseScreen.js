@@ -39,7 +39,6 @@ export default class ExpenseScreen extends React.Component {
   render() {
     const { text, cost, category} = this.state;
 
-
     let data = [{
       value: 'Grocery',
     }, {
@@ -71,7 +70,6 @@ export default class ExpenseScreen extends React.Component {
         placeholder = "Item"
         onChangeText={this.updateItem}
         value={text}
-        ref={input => { this.textInput = input }}
       />
 
         {/* Slide down choices */}
@@ -88,13 +86,14 @@ export default class ExpenseScreen extends React.Component {
         placeholder = "Cost (input numbers only!)"
         onChangeText = {this.updateCost}
         value = {cost}
-        ref={input => { this.textInput = input }}
         />
 
       <BackBtn 
-        onPress = { () =>  {this.reset(); alert("Submitted"); 
-        budget.updateExpenses(cost)}}></BackBtn>
-            
+        onPress = { () =>  {this.reset(); alert("Submitted");
+        budget.updateExpenses(cost)
+        budget.updateHistory(text, cost, category)
+          }}></BackBtn>
+      
             
     </ScrollView>
 

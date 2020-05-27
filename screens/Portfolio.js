@@ -1,39 +1,54 @@
 import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
-import { useLinkBuilder, Link } from '@react-navigation/native';
+ 
 
-export default function Portfolio() {
-  return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <OptionButton
-        icon="ios-chatboxes"
-        label="View Current Portfolio"
-        onPress={() => Link = "/PastPort"}
-        isLastOption
+export default class Portfolio extends React.Component {
+   static navigationOptions = {
+    title: 'Portfolio',
+  };
+  render() {
+    return (
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <OptionButton
+          icon="ios-chatboxes"
+          label="View Current Portfolio"
+          onPress={() => {
+            const { navigate } = this.props.navigation
+            navigate('My Portfolio')
+          }}
+          />
+
+        <OptionButton
+          icon="md-book"
+          label="View Past Porfolio"
+          onPress={() => {
+            const { navigate } = this.props.navigation
+            navigate('Past Portfolio')
+          }}
+        />
+        
+        <OptionButton
+          icon="md-compass"
+          label= "Create New Budget"
+          onPress={() => {
+            const { navigate } = this.props.navigation
+            navigate('Create New Budget')
+          }}
         />
 
-      <OptionButton
-        icon="md-book"
-        label="View Past Porfolio"
-        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
-      />
-      
-      <OptionButton
-        icon="md-compass"
-        label= "Create New Budget"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
-      />
-
-      <OptionButton
-        icon="md-compass"
-        label= "Edit Current Budget"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
-      />
-    </ScrollView>
-  );
+        <OptionButton
+          icon="md-compass"
+          label= "Edit Current Budget"
+          onPress={() => {
+            const { navigate } = this.props.navigation
+            navigate('Edit Current Budget')
+          }}
+        />
+      </ScrollView>
+      );
+  }
 }
 
 function OptionButton({ icon, label, onPress, isLastOption }) {

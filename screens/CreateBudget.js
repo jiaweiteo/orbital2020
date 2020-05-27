@@ -9,9 +9,9 @@ import PropTypes from "prop-types";
 import TrackBudget from '../components/TrackBudget'
 import budget from '../components/TrackBudget';
 
-class EditBudget extends React.Component {
+class CreateBudget extends React.Component {
     static navigationOptions = {
-        title: 'Edit Current Budget',
+        title: 'Create New Budget',
     };
     constructor(props) {
         super(props);
@@ -73,9 +73,18 @@ class EditBudget extends React.Component {
           />
     
 
+    
+            {/* Numbers only */}
+          <TextInput style = {styles.item}
+            placeholder = "Date of Budget: (DD-MM-YY)"
+            onChangeText = {this.updateDate}
+            value = {date}
+            />
+    
           <BackBtn 
             onPress = { () =>  {this.reset(); alert("Submitted");
             budget.updateBudget(money)
+            budget.updateDate(date)
               }}></BackBtn>
           
                 
@@ -128,4 +137,4 @@ class EditBudget extends React.Component {
     });
     
 
-export default EditBudget
+export default CreateBudget

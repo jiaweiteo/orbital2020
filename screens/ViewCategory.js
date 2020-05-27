@@ -8,7 +8,7 @@ import budget from '../components/TrackBudget';
 
 class CurrentPort extends React.Component {
     static navigationOptions = {
-        title: 'My Portfolio',
+        title: 'View By Category',
     };
 
     render() {
@@ -21,17 +21,6 @@ class CurrentPort extends React.Component {
                     <Text style = {styles.header2}> ${budget.state.expenses}</Text>
 
                   </View>
-
-                  <OptionButton
-                    icon="md-book"
-                     label="View By Category"
-                     onPress={() => {
-                     const { navigate } = this.props.navigation
-                        navigate('View By Category')
-                    }}
-                  />
-
-
                   <View style =  {styles.welcomeContainer}>
                         <View style = {styles.catContainer1}>
                             <Text style = {styles.header2}> Item </Text>
@@ -43,10 +32,9 @@ class CurrentPort extends React.Component {
                             <Text style = {styles.header2}> Category </Text>
                          </View>
                   </View>
-
-
-
                 <ScrollView style={styles.container} contentContainerStyle={styles.welcomeContainer}>
+
+
 
                   <View style = {styles.viewContainer}>
                     <Text style = {styles.text}> {budget.state.itemH}</Text>
@@ -59,11 +47,8 @@ class CurrentPort extends React.Component {
                   </View>
 
 
-
-
                 </ScrollView>
-                </View>
-
+            </View>
         )
     }
 }
@@ -72,12 +57,12 @@ class CurrentPort extends React.Component {
 function OptionButton({ icon, label, onPress, isLastOption }) {
   return (
     <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
-      <View style={styles.getStartedContainer2}>
+      <View style={{ flexDirection: 'row' }}>
         <View style={styles.optionIconContainer}>
           <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
         </View>
         <View style={styles.optionTextContainer}>
-          <Text style={styles.header3}>{label}</Text>
+          <Text style={styles.optionText}>{label}</Text>
         </View>
       </View>
     </RectButton>
@@ -130,25 +115,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 50,
       },
-
-      getStartedContainer2: {
-        backgroundColor: 'rgba(50, 200, 1000, 0.3)',
-        padding: 10,
-        borderRadius: 200,
-        alignItems: 'center',
-        marginHorizontal: 50,
-      },
       viewContainer: {
         flex: 1,
         alignItems: 'center',
         marginTop: -1,
         marginBottom: 0,
-        borderRightWidth: StyleSheet.hairlineWidth,
         borderTopWidth: StyleSheet.hairlineWidth,
         borderBottomWidth: StyleSheet.hairlineWidth,
       },
 
-      
       catContainer1: {
         flex: 1,
         alignItems: 'center',
@@ -156,8 +131,6 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         borderTopWidth: 3,
         borderBottomWidth: 3,
-        borderRightWidth: StyleSheet.hairlineWidth,
-
         backgroundColor: 'powderblue'
       },
 
@@ -179,22 +152,18 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         borderTopWidth: 3,
         borderBottomWidth: 3,
-        borderRightWidth: StyleSheet.hairlineWidth,
-
         backgroundColor: 'steelblue'
       },
 
 
 
       header: {
-        marginTop: 20,
         fontSize: 15,
         textAlign: 'center',
         color: 'rgba(96,100,109, 1)',
         fontWeight: 'bold',
       },
       header2: {
-        marginBottom: 10,
         fontSize: 25,
         textAlign: 'center',
         fontWeight: 'bold',
