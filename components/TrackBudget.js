@@ -12,6 +12,7 @@ class TrackBudget extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          user: "",
           budget: 0,
           expenses: 0,
           itemH : [],
@@ -22,6 +23,14 @@ class TrackBudget extends React.Component {
         };
       }
 
+      updateUser(name) {
+        this.state.user = name;
+      }
+
+      getUser() {
+        return this.state.user;
+      }
+      
       updateDate(dd) {
         this.state.date = 0
         const numdd = Number(dd.substring(0,2))
@@ -35,7 +44,6 @@ class TrackBudget extends React.Component {
       updateBudget(money) {
         this.state.budget = 0
         this.state.budget += Number(money)
-        console.log(money)
       }
   
       updateHistory(item, cost, category) {

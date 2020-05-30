@@ -2,6 +2,8 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 import budget from '../components/TrackBudget';
 
@@ -9,6 +11,7 @@ import budget from '../components/TrackBudget';
 class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Home',
+    headerLeft: null,
 };
 
 
@@ -20,8 +23,19 @@ class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+         <LinearGradient
+          colors={['transparent', 'rgba(0,100,200,0.8)']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 800,
+          }}
+        />
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        
+        <Text style={styles.dateText}>Welcome back {budget.getUser()}</Text>
+
         <Text style={styles.dateText}>{date + " " + monthInWords(month) + " " + year}</Text>
 
           <View style={styles.welcomeContainer}>
@@ -117,7 +131,6 @@ function daysLeft(date, month, budgetDate) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   expenseText: {
     marginTop: 20,
@@ -130,15 +143,12 @@ const styles = StyleSheet.create({
 
   welcomeContainer: {
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+
   },
   welcomeImage: {
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
   },
   getStartedContainer: {
     alignItems: 'center',
@@ -153,7 +163,7 @@ const styles = StyleSheet.create({
   },
 
   dateText: {
-    marginTop: 10,
+    marginTop: 0,
     marginLeft: 16,
     fontSize: 20,
     color: 'rgba(96,100,0, 10)',

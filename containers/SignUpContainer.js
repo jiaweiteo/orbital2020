@@ -2,14 +2,65 @@ import React from 'react'
 import {StyleSheet, Text, View, TextInput, Image, KeyboardAvoidingView } from 'react-native'
 import BlueButton from "../components/BlueButton";
 import firebaseDb from '../firebaseDb';
+import budget from '../components/TrackBudget';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 class SignUpContainer extends React.Component {
+
+    static navigationOptions = {
+        title: 'SignUp',
+        header: {
+            visible: false,
+        },
+      };
+
     state = {
         name: '',
         email: '',
         password: '',
         isSignUpSuccessful: false
     };
+
+    checkUser(namea) {
+        if (namea === "") {
+            return false;
+        }
+        console.log(namea.length)
+        return namea.length >= 6 ? true : false
+    }
+
+    checkEmail(emaila) {
+        let dotCounter = 0;
+        let atCounter = 0;
+        if (emaila.length === 0) {
+            return false;
+        } else {
+        
+             for (let i = 0; i < emaila.length; i++) {
+                if (emaila.charAt(i) === "@") {
+                    atCounter += 1
+                 }
+                 if (emaila.charAt(i) === ".") {
+                    dotCounter += 1
+                }
+            }
+        }
+
+        if (dotCounter >= 1 && atCounter === 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    checkPassword(pass) {
+        if (pass === "") {
+            return false;
+        }
+        return pass.length >= 6 ? true : false;
+    }
+
 
     handleUpdateName = (name) => {this.setState({name})};
     handleUpdateEmail = (email) => {this.setState({email})};
@@ -39,7 +90,17 @@ class SignUpContainer extends React.Component {
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <Image style={styles.image} source={require('../assets/Logo.png')}/>
+                     <LinearGradient
+          colors={['transparent', 'rgba(0,100,200,0.8)']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 800,
+          }}
+        />
+            <Image style={styles.image} source={require('../assets/images/Logo.png')}/>
             <TextInput
                 style={styles.textInput}
                 placeholder="Name"
@@ -56,6 +117,7 @@ class SignUpContainer extends React.Component {
 
             <TextInput
                 style={styles.textInput}
+                secureTextEntry = {true}
                 placeholder="Password"
                 onChangeText={this.handleUpdatePassword}
                 value={password}
@@ -63,8 +125,29 @@ class SignUpContainer extends React.Component {
             <BlueButton
                 style={styles.button}
                 onPress={() => {
-                    if (name.length && email.length && password.length) {
-                        this.handleCreateUser()
+                    if (this.checkUser(name)) {
+                        if (this.checkEmail(email)) {
+                            if (this.checkPassword(password)) {
+                                    this.handleCreateUser()
+                                    this.props.navigation.replace("Root")
+                                    budget.updateUser(name)
+                            } else {
+                                alert("Password must be 6 character length or longer!")
+                                this.setState({
+                                    password: "",
+                                })
+                            }
+                        } else {
+                            alert("Please enter a valid email!")
+                            this.setState({
+                                email: "",
+                            })
+                        }
+                    } else {
+                        alert("Username must be 6 character length or longer!")
+                        this.setState({
+                            name: "",
+                        })
                     }
                 }
                 }
@@ -72,6 +155,12 @@ class SignUpContainer extends React.Component {
                  Sign up
             </BlueButton>
             {isSignUpSuccessful ? (<Text style={styles.text}>Sign Up Successful</Text>) : null}
+
+            <Text style = {styles.text2}> Already have an account? Click here to login </Text>
+            <BlueButton style = {styles.button2}
+                    onPress = {() => {
+                        this.props.navigation.replace("Login")
+                    }}> Login </BlueButton>
         </KeyboardAvoidingView>
     );
 }
@@ -94,6 +183,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 40,
     },
+    text2: {
+        marginTop: 30,
+    },
     image :{
         marginBottom: 50,
     },
@@ -104,9 +196,15 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         width: 200,
         height: 30,
+        backgroundColor: 'white'
     },
     button: {
-        marginTop: 42,
+        margin: 42,
+    },
+
+    button2: {
+        marginTop: 20,
+        backgroundColor: 'orange',
     },
 });
 

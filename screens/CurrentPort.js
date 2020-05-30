@@ -31,6 +31,17 @@ class CurrentPort extends React.Component {
                     }}
                   />
 
+                  <OptionButton
+                    icon="md-book"
+                     label="Home"
+                     onPress={() => {
+                      this.props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Root' }],
+                      });
+                    }}
+                  />
+
 
                   <View style =  {styles.welcomeContainer}>
                         <View style = {styles.catContainer1}>
