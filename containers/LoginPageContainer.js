@@ -66,24 +66,19 @@ class SignUpContainer extends React.Component {
     handleUpdateEmail = (email) => {this.setState({email})};
     handleUpdatePassword = (password) => {this.setState({password})};
 
-    handleCreateUser = () =>
-        firebaseDb
-            .firestore()
-            .collection('users')
-            .add({
-                name: this.state.name,
-                email: this.state.email,
-                password: this.state.password
-            })
-            .then(() =>
+     onLoginPress = () =>
+            firebaseDb.auth()
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(() => {
                 this.setState({
                     name: '',
                     email: '',
                     password: '',
                     isSignUpSuccessful: true
-            }))
-            .catch(err => console.error(err))
-
+            })
+            this.props.navigation.replace("Root")
+        })
+        .catch(err => alert("Invalid Email or Password!"))
 
     render() {
     const {name, email, password, isSignUpSuccessful} = this.state
@@ -103,13 +98,6 @@ class SignUpContainer extends React.Component {
             <Image style={styles.image} source={require('../assets/images/Logo.png')}/>
             <TextInput
                 style={styles.textInput}
-                placeholder="Name"
-                onChangeText={this.handleUpdateName}
-                value={name}
-            />
-
-            <TextInput
-                style={styles.textInput}
                 placeholder="Email"
                 onChangeText={this.handleUpdateEmail}
                 value={email}
@@ -125,11 +113,9 @@ class SignUpContainer extends React.Component {
             <BlueButton
                 style={styles.button}
                 onPress={() => {
-                    if (this.checkUser(name)) {
                         if (this.checkEmail(email)) {
                             if (this.checkPassword(password)) {
-                                    this.handleCreateUser()
-                                    this.props.navigation.replace("Root")
+                                    this.onLoginPress()
                                     budget.updateUser(name)
                             } else {
                                 alert("Password must be 6 character length or longer!")
@@ -143,13 +129,7 @@ class SignUpContainer extends React.Component {
                                 email: "",
                             })
                         }
-                    } else {
-                        alert("Username must be 6 character length or longer!")
-                        this.setState({
-                            name: "",
-                        })
                     }
-                }
                 }
                 >
                  Login

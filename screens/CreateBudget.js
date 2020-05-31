@@ -8,6 +8,8 @@ import { Dropdown } from 'react-native-material-dropdown';
 import PropTypes from "prop-types";
 import TrackBudget from '../components/TrackBudget'
 import budget from '../components/TrackBudget';
+import BlueButton from "../components/BlueButton";
+
 
 class CreateBudget extends React.Component {
     static navigationOptions = {
@@ -85,9 +87,9 @@ class CreateBudget extends React.Component {
             onPress = { () =>  {this.reset(); alert("Submitted");
             budget.updateBudget(money)
             budget.updateDate(date)
+            this.props.navigation.replace("Root")
               }}></BackBtn>
           
-                
         </ScrollView>
     
        
@@ -133,7 +135,10 @@ class CreateBudget extends React.Component {
       category: {
         marginBottom: 20,
         alignSelf:'center',
-      }
+      },
+      button: {
+        marginTop: 42,
+    },
     });
     
 

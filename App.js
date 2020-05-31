@@ -15,6 +15,7 @@ import EditBudget from './screens/EditBudget'
 import ViewCategory from './screens/ViewCategory'
 import SignUpContainer from './containers/SignUpContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
+import ExpenseScreen from './screens/ExpenseScreen';
 
 
 const Stack = createStackNavigator();
@@ -30,11 +31,11 @@ export default function App(props) {
         {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
         <NavigationContainer linking={LinkingConfiguration}>
           <Stack.Navigator>
-            <Stack.Screen name = "Sign Up" component = {SignUpContainer} />
-            <Stack.Screen name = "Login" component = {LoginPageContainer} />
-
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-            <Stack.Screen name = "Home" component= {HomeScreen} />
+            <Stack.Screen options ={{headerShown: false}} name = "Sign Up" component = {SignUpContainer} />
+            <Stack.Screen options = {{headerShown: false}} name = "Login" component = {LoginPageContainer} />
+            <Stack.Screen options = {{headerShown: false}} name="Root" component={BottomTabNavigator} />
+            <Stack.Screen options = {{headerShown: false}} name = "Home" component= {HomeScreen} />
+            <Stack.Screen options = {{headerShown: false}} name = "Expense" component= {ExpenseScreen} />
             <Stack.Screen name = "Port" component= {Portfolio} />
             <Stack.Screen name = "My Portfolio" component= {CurrentPort} />
             <Stack.Screen name = "Past Portfolio" component = {PastPort} />

@@ -9,6 +9,8 @@ import PropTypes from "prop-types";
 import TrackBudget from '../components/TrackBudget'
 import budget from '../components/TrackBudget';
 import HomeScreen from './HomeScreen';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 
 
@@ -62,15 +64,30 @@ export default class ExpenseScreen extends React.Component {
 
 
   return (
-    
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      
+    <View style = {styles.container}>
+              <LinearGradient
+          colors={['transparent', 'rgba(0,100,200,0.5)']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 800,
+          }}
+        />
+    <ScrollView contentContainerStyle={styles.contentContainer}>
+
+      <View style = {styles.header1}>
+        <Text style = {styles.header}> Add new expense </Text>
+      </View>
+      <View style = {styles.content}>
       {/* Input Text */}
       <TextInput style = {styles.item}
         placeholder = "Item"
         onChangeText={this.updateItem}
         value={text}
       />
+      </View>
 
         {/* Slide down choices */}
       <Dropdown style = {styles.category}
@@ -81,23 +98,25 @@ export default class ExpenseScreen extends React.Component {
         value = {category}
       />
 
+      <View style = {styles.content}>
         {/* Numbers only */}
       <TextInput style = {styles.item}
         placeholder = "Cost (input numbers only!)"
         onChangeText = {this.updateCost}
         value = {cost}
         />
+        </View>
 
       <BackBtn 
         onPress = { () =>  {this.reset(); alert("Submitted");
         budget.updateExpenses(cost)
         budget.updateHistory(text, cost, category)
+        this.props.navigation.replace('Root');
           }}></BackBtn>
       
             
     </ScrollView>
-
-   
+    </View>
   );
 }
 }
@@ -105,6 +124,7 @@ export default class ExpenseScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 15,
     flex: 1,
     backgroundColor: '#fafafa',
     flexDirection: 'column',
@@ -136,9 +156,27 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 15,
     alignSelf: 'center',
+    alignContent: 'stretch',
   },
   category: {
     marginBottom: 20,
     alignSelf:'center',
+  },
+  content: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  header: {
+      fontSize: 30,
+      color: 'black',
+      textAlign: 'center',
+      fontWeight: 'bold',
+  },
+  header1: {
+    marginTop: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    borderBottomWidth: 2,
+    borderTopWidth: 2,
+    backgroundColor: 'rgba(50, 125, 255, 0.5)'
   }
 });

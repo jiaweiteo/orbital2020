@@ -46,6 +46,15 @@ export default class Portfolio extends React.Component {
             navigate('Edit Current Budget')
           }}
         />
+
+          <OptionButton
+          icon="md-compass"
+          label= "Log out"
+          onPress={() => {
+            this.props.navigation.replace("Login")
+          }}
+          isLastOption = "true"
+        /> 
       </ScrollView>
       );
   }
@@ -70,6 +79,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fafafa',
+
+    paddingTop: 30,
+
   },
   contentContainer: {
     paddingTop: 15,
@@ -82,11 +94,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
+    
   },
   lastOption: {
+    marginTop: 420,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    backgroundColor: 'lightblue',
   },
   optionText: {
     fontSize: 15,

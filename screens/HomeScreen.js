@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -22,7 +22,7 @@ class HomeScreen extends React.Component {
     var month = new Date().getMonth() + 1;
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
          <LinearGradient
           colors={['transparent', 'rgba(0,100,200,0.8)']}
           style={{
@@ -34,10 +34,13 @@ class HomeScreen extends React.Component {
           }}
         />
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <View style = {styles.text2}>
+        
         <Text style={styles.dateText}>Welcome back {budget.getUser()}</Text>
 
-        <Text style={styles.dateText}>{date + " " + monthInWords(month) + " " + year}</Text>
+        <Text style={styles.dateText2}>{date + " " + monthInWords(month) + " " + year}</Text>
 
+        </View>
           <View style={styles.welcomeContainer}>
             <Image style = {styles.welcomeImage}
               source={
@@ -72,7 +75,7 @@ class HomeScreen extends React.Component {
 
           </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
     }
 
@@ -109,13 +112,13 @@ function monthInWords(month) {
 }
 
 function daysLeft(date, month, budgetDate) {
-  if (budgetDate === 0) {
+  if (budgetDate == 0) {
     return "No Budget Plan Yet"
   }
   var daysInMonth = 0
-  if (month === "1" || month === "3" || month === "5" || month === "7" || month === "8" || month === "10" || month === "12") {
+  if (month == "1" || month == "3" || month == "5" || month == "7" || month == "8" || month == "10" || month == "12") {
     daysInMonth = 31    
-  } else if (month === "4" || month === "6" || month === "9" || month == "11") {
+  } else if (month == "4" || month == "6" || month == "9" || month == "11") {
     daysInMonth = 30
   } else {
     daysInMonth = 28 //Feb
@@ -130,6 +133,7 @@ function daysLeft(date, month, budgetDate) {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 15,
     flex: 1,
   },
   expenseText: {
@@ -164,11 +168,24 @@ const styles = StyleSheet.create({
 
   dateText: {
     marginTop: 0,
-    marginLeft: 16,
+    marginLeft: 10,
     fontSize: 20,
     color: 'rgba(96,100,0, 10)',
     textAlign: 'left',
   },
+
+  dateText2: {
+    marginTop: 0,
+    marginLeft: 20,
+    paddingLeft: 70,
+    fontSize: 20,
+    color: 'rgba(96,100,0, 10)',
+    textAlign: "center",
+  },
+
+  text2: {
+    flexDirection: 'row',
+  }
 
 });
 

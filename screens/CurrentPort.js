@@ -2,6 +2,8 @@ import * as React from 'react';
 import { View, Text, StyleSheet, FlatList, Alert} from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 import budget from '../components/TrackBudget';
 
@@ -16,34 +18,16 @@ class CurrentPort extends React.Component {
 
         return(
             <View style={styles.container}>
-                   <View style = {styles.getStartedContainer}>
-                    <Text style = {styles.header}> Total Expenses for the month of {monthInWords(month)}:</Text>
-                    <Text style = {styles.header2}> ${budget.state.expenses}</Text>
+              <View style = {styles.getStartedContainer}>
+                <Text style = {styles.header}> Total Expenses for the month of {monthInWords(month)}:</Text>
+                <Text style = {styles.header3}> ${budget.state.expenses}</Text>
+              </View>
 
-                  </View>
-
-                  <OptionButton
-                    icon="md-book"
-                     label="View By Category"
-                     onPress={() => {
-                     const { navigate } = this.props.navigation
-                        navigate('View By Category')
-                    }}
-                  />
-
-                  <OptionButton
-                    icon="md-book"
-                     label="Home"
-                     onPress={() => {
-                      this.props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Root' }],
-                      });
-                    }}
-                  />
 
 
                   <View style =  {styles.welcomeContainer}>
+             
+
                         <View style = {styles.catContainer1}>
                             <Text style = {styles.header2}> Item </Text>
                          </View>
@@ -73,6 +57,16 @@ class CurrentPort extends React.Component {
 
 
                 </ScrollView>
+                <OptionButton
+                    icon="md-book"
+                     label="Home"
+                     onPress={() => {
+                      this.props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Root' }],
+                      });
+                    }}
+                  />
                 </View>
 
         )
@@ -82,13 +76,13 @@ class CurrentPort extends React.Component {
 
 function OptionButton({ icon, label, onPress, isLastOption }) {
   return (
-    <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
+    <RectButton onPress={onPress}>
       <View style={styles.getStartedContainer2}>
-        <View style={styles.optionIconContainer}>
+        <View>
           <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
         </View>
         <View style={styles.optionTextContainer}>
-          <Text style={styles.header3}>{label}</Text>
+          <Text style={styles.header1}>{label}</Text>
         </View>
       </View>
     </RectButton>
@@ -129,6 +123,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
+        
       },
       welcomeContainer: {
         alignItems: 'center',
@@ -138,8 +133,9 @@ const styles = StyleSheet.create({
 
       },
       getStartedContainer: {
+        marginBottom: 10,
         alignItems: 'center',
-        marginHorizontal: 50,
+        borderBottomWidth: StyleSheet.hairlineWidth,
       },
 
       getStartedContainer2: {
@@ -195,8 +191,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'steelblue'
       },
 
-
-
+      button: {
+        flexDirection: 'row',
+      },
       header: {
         marginTop: 20,
         fontSize: 15,
@@ -207,6 +204,12 @@ const styles = StyleSheet.create({
       header2: {
         marginBottom: 10,
         fontSize: 25,
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+      header3: {
+        marginBottom: 10,
+        fontSize: 45,
         textAlign: 'center',
         fontWeight: 'bold',
       },

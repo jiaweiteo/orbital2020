@@ -8,6 +8,17 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 class SignUpContainer extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: "",
+            email: "",
+            password: "",
+            error: "",
+            isSignUpSuccessful: false,
+        }
+    }
+
     static navigationOptions = {
         title: 'SignUp',
         header: {
@@ -15,12 +26,6 @@ class SignUpContainer extends React.Component {
         },
       };
 
-    state = {
-        name: '',
-        email: '',
-        password: '',
-        isSignUpSuccessful: false
-    };
 
     checkUser(namea) {
         if (namea === "") {
@@ -83,7 +88,19 @@ class SignUpContainer extends React.Component {
                     isSignUpSuccessful: true
             }))
             .catch(err => console.error(err))
-
+            
+        
+    onSignUpPress = () =>
+            firebaseDb.auth()
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(() =>
+                this.setState({
+                    name: '',
+                    email: '',
+                    password: '',
+                    isSignUpSuccessful: true
+            }))
+            .catch(err => console.error(err))
 
     render() {
     const {name, email, password, isSignUpSuccessful} = this.state
@@ -107,6 +124,7 @@ class SignUpContainer extends React.Component {
                 onChangeText={this.handleUpdateName}
                 value={name}
             />
+            
 
             <TextInput
                 style={styles.textInput}
@@ -129,7 +147,8 @@ class SignUpContainer extends React.Component {
                         if (this.checkEmail(email)) {
                             if (this.checkPassword(password)) {
                                     this.handleCreateUser()
-                                    this.props.navigation.replace("Root")
+                                    this.onSignUpPress()
+                                    this.props.navigation.replace("Create New Budget")
                                     budget.updateUser(name)
                             } else {
                                 alert("Password must be 6 character length or longer!")
