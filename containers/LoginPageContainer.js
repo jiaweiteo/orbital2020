@@ -75,10 +75,18 @@ class SignUpContainer extends React.Component {
                     email: '',
                     password: '',
                     isSignUpSuccessful: true
+            })})
+            .then(() => {
+                var user = firebaseDb.auth().currentUser;
+                let docRef = firebaseDb.firestore().collection('users').doc(user.uid)
+                docRef.onSnapshot(doc => {
+                    budget.updateUser(doc.data().name)
+                    this.props.navigation.replace("Root")
+                })
+
             })
-            this.props.navigation.replace("Root")
-        })
-        .catch(err => alert("Invalid Email or Password!"))
+       
+        .catch(err => alert(err))
 
     render() {
     const {name, email, password, isSignUpSuccessful} = this.state

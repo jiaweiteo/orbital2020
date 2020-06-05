@@ -2,12 +2,20 @@ import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import firebaseDb from '../firebaseDb';
+
  
 
 export default class Portfolio extends React.Component {
    static navigationOptions = {
     title: 'Portfolio',
   };
+
+  onSignOut = () => firebaseDb.auth().signOut().then(() => { 
+    alert("Sign Out Successfully!")
+    this.props.navigation.replace("Login")
+  }).catch(err => console.log(err))
+
   render() {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -51,7 +59,7 @@ export default class Portfolio extends React.Component {
           icon="md-compass"
           label= "Log out"
           onPress={() => {
-            this.props.navigation.replace("Login")
+            this.onSignOut()
           }}
           isLastOption = "true"
         /> 
@@ -74,6 +82,7 @@ function OptionButton({ icon, label, onPress, isLastOption }) {
     </RectButton>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

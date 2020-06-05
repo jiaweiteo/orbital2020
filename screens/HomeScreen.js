@@ -3,6 +3,8 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
+import firebaseDb from '../firebaseDb';
+
 
 
 import budget from '../components/TrackBudget';
@@ -20,6 +22,8 @@ class HomeScreen extends React.Component {
     var date = new Date().getDate();
     var year = new Date().getFullYear();
     var month = new Date().getMonth() + 1;
+
+
 
     return (
       <SafeAreaView style={styles.container}>
@@ -39,7 +43,7 @@ class HomeScreen extends React.Component {
         <Text style={styles.dateText}>Welcome back {budget.getUser()}</Text>
 
         <Text style={styles.dateText2}>{date + " " + monthInWords(month) + " " + year}</Text>
-
+        
         </View>
           <View style={styles.welcomeContainer}>
             <Image style = {styles.welcomeImage}
@@ -176,15 +180,15 @@ const styles = StyleSheet.create({
 
   dateText2: {
     marginTop: 0,
-    marginLeft: 20,
-    paddingLeft: 70,
+    marginLeft: 10,
+    paddingLeft: 0,
     fontSize: 20,
     color: 'rgba(96,100,0, 10)',
-    textAlign: "center",
+    textAlign: "left",
   },
 
   text2: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   }
 
 });

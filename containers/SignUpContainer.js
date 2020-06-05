@@ -93,13 +93,20 @@ class SignUpContainer extends React.Component {
     onSignUpPress = () =>
             firebaseDb.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(() =>
+            .then((cred) => {W
+                return firebaseDb.firestore().collection('users').doc(cred.user.uid).set({
+                    name: this.state.name,
+                    email: this.state.email,
+                    password: this.state.password,
+                })
+            }).then(() => {
                 this.setState({
                     name: '',
                     email: '',
                     password: '',
                     isSignUpSuccessful: true
-            }))
+                })
+            })
             .catch(err => console.error(err))
 
     render() {
@@ -146,7 +153,6 @@ class SignUpContainer extends React.Component {
                     if (this.checkUser(name)) {
                         if (this.checkEmail(email)) {
                             if (this.checkPassword(password)) {
-                                    this.handleCreateUser()
                                     this.onSignUpPress()
                                     this.props.navigation.replace("Create New Budget")
                                     budget.updateUser(name)
@@ -217,9 +223,9 @@ const styles = StyleSheet.create({
         height: 30,
         backgroundColor: 'white'
     },
-    button: {
-        margin: 42,
-    },
+        button: {
+            margin: 42,
+        },
 
     button2: {
         marginTop: 20,
