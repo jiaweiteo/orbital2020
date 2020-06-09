@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, FlatList, Alert} from 'react-native';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import { RectButton, ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import _ from "lodash"
 
 
 import budget from '../components/TrackBudget';
@@ -13,8 +14,31 @@ class CurrentPort extends React.Component {
         title: 'My Portfolio',
     };
 
+    state = {
+      list: budget.state.history,
+      original: budget.state.history,
+      bool: true,
+      itemLs: budget.state.itemH,
+      itemTemp: "",
+      costLs: budget.state.costH,
+      costTemp: "",
+      catLs: budget.state.catH,
+      catTemp: "",
+      userSelection: "",
+    }
+
     render() {
-      var month = new Date().getMonth() + 1;
+      
+        const promptUser = () => {
+          const title = 'Delete Item?';
+          const message = 'This action cannot be reverted!';
+          const buttons = [
+              { text: 'No', onPress: () => this.setState({userSelection: 'delete'}) },
+              { text: 'Yes', onPress: () => this.setState({userSelection: 'noDelete'}) }
+          ];
+          Alert.alert(title, message, buttons);
+        }
+        var month = new Date().getMonth() + 1;
 
         return(
             <View style={styles.container}>
@@ -23,20 +47,97 @@ class CurrentPort extends React.Component {
                 <Text style = {styles.header3}> ${budget.state.expenses}</Text>
               </View>
 
-
-
                   <View style =  {styles.welcomeContainer}>
              
 
                         <View style = {styles.catContainer1}>
-                            <Text style = {styles.header2}> Item </Text>
+                          <TouchableOpacity onPress = { () => {
+                            if (this.state.bool) {
+                              const temp = _.cloneDeep(this.state.list)
+                              const tempItem = _.cloneDeep(this.state.itemLs)
+                              const tempCost = _.cloneDeep(this.state.costLs)
+                              const tempCat = _.cloneDeep(this.state.catLs)
+                              const newLs = sortByItem(temp)
+                              this.setState({
+                                itemLs: newLs[0],
+                                costLs: newLs[1],
+                                catLs: newLs[2],
+                                itemTemp: tempItem,
+                                costTemp: tempCost,
+                                catTemp: tempCat,
+                                bool: false,
+                            })
+                          } else { 
+                            this.setState({
+                              itemLs: this.state.itemTemp,
+                              costLs: this.state.costTemp,
+                              catLs: this.state.catTemp,
+                              bool: true,
+                            })
+                          }
+                        }}>
+                            <Text style = {styles.header2}  > Item </Text></TouchableOpacity>
                          </View>
+
+                         
                          <View style = {styles.catContainer2}>
-                            <Text style = {styles.header2}> Cost </Text>
+                           <TouchableOpacity onPress = { () => {
+                            if (this.state.bool) {
+                              const temp = _.cloneDeep(this.state.list)
+                              const tempItem = _.cloneDeep(this.state.itemLs)
+                              const tempCost = _.cloneDeep(this.state.costLs)
+                              const tempCat = _.cloneDeep(this.state.catLs)
+                              const newLs = sortByCost(temp)
+                              this.setState({
+                                itemLs: newLs[0],
+                                costLs: newLs[1],
+                                catLs: newLs[2],
+                                itemTemp: tempItem,
+                                costTemp: tempCost,
+                                catTemp: tempCat,
+                                bool: false,
+                            })
+                          } else { 
+                            this.setState({
+                              itemLs: this.state.itemTemp,
+                              costLs: this.state.costTemp,
+                              catLs: this.state.catTemp,
+                              bool: true,
+                            })
+                          }
+                        }}>
+                         <Text style = {styles.header2}  >Cost </Text></TouchableOpacity>
                          </View>
+
                          <View style = {styles.catContainer3}>
-                            <Text style = {styles.header2}> Category </Text>
+                           <TouchableOpacity onPress = { () => {
+                            if (this.state.bool) {
+                              const temp = _.cloneDeep(this.state.list)
+                              const tempItem = _.cloneDeep(this.state.itemLs)
+                              const tempCost = _.cloneDeep(this.state.costLs)
+                              const tempCat = _.cloneDeep(this.state.catLs)
+                              const newLs = sortByCat(temp)
+                              this.setState({
+                                itemLs: newLs[0],
+                                costLs: newLs[1],
+                                catLs: newLs[2],
+                                itemTemp: tempItem,
+                                costTemp: tempCost,
+                                catTemp: tempCat,
+                                bool: false,
+                            })
+                          } else { 
+                            this.setState({
+                              itemLs: this.state.itemTemp,
+                              costLs: this.state.costTemp,
+                              catLs: this.state.catTemp,
+                              bool: true,
+                            })
+                          }
+                        }}>
+                         <Text style = {styles.header2}> Category </Text></TouchableOpacity>  
                          </View>
+                         
                   </View>
 
 
@@ -44,19 +145,20 @@ class CurrentPort extends React.Component {
                 <ScrollView style={styles.container} contentContainerStyle={styles.welcomeContainer}>
 
                   <View style = {styles.viewContainer}>
-                    <Text style = {styles.text}> {budget.state.itemH}</Text>
+                    <Text style = {styles.text}> {this.state.itemLs}</Text>
                   </View>
                   <View style = {styles.viewContainer}>
-                    <Text style = {styles.text}> {budget.state.costH}</Text>
+                    <Text style = {styles.text}> {this.state.costLs}</Text>
                   </View>
                    <View style = {styles.viewContainer}>
-                    <Text style = {styles.text}> {budget.state.catH}</Text>
+                    <Text style = {styles.text}> {this.state.catLs}</Text>
                   </View>
 
 
 
 
                 </ScrollView>
+                <View style = {styles.buttons}>
                 <OptionButton
                     icon="md-book"
                      label="Home"
@@ -67,12 +169,26 @@ class CurrentPort extends React.Component {
                       });
                     }}
                   />
+                      
+                <OptionButton
+                    icon="md-book"
+                     label="Overview"
+                     onPress={() => {
+                      this.props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Overview' }],
+                      });
+                    }}
+                  />
+                  </View>
                 </View>
+
+            
+                
 
         )
     }
 }
-
 
 function OptionButton({ icon, label, onPress, isLastOption }) {
   return (
@@ -82,7 +198,7 @@ function OptionButton({ icon, label, onPress, isLastOption }) {
           <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
         </View>
         <View style={styles.optionTextContainer}>
-          <Text style={styles.header1}>{label}</Text>
+          <Text style={{fontWeight: 'bold'}}>{label}</Text>
         </View>
       </View>
     </RectButton>
@@ -117,6 +233,81 @@ function monthInWords(month) {
   }
 }
 
+function itemComparator(a, b) {
+  if (a[0].toUpperCase() < b[0].toUpperCase()) return -1;
+  if (a[0].toUpperCase() > b[0].toUpperCase()) return 1;
+  return 0;
+}
+
+function costComparator(a, b) {
+  if (a[1] < b[1]) return -1;
+  if (a[1] > b[1]) return 1;
+  return 0;
+}
+
+function costComparator2(a, b) {
+  if (a[1] < b[1]) return 1;
+  if (a[1] > b[1]) return -1;
+  return 0;
+}
+
+function catComparator(a, b) {
+  if (a[2] < b[2]) return -1;
+  if (a[2] > b[2]) return 1;
+  else {
+    if (a[1] < b[1]) return -1;
+    if (a[1] > b[1]) return 1;
+    return 0;
+  }
+}
+
+function sortByItem(ls) {
+  ls.sort(itemComparator)
+  let newHistory = [[], [], []]
+  for (let i = 0; i < ls.length; i++) {
+    newHistory[0].push((String(ls[i][0]) + "\n"))
+  }
+  for (let i = 0; i < ls.length; i++) {
+    newHistory[1].push((String(ls[i][1]) + "\n"))
+  }
+  for (let i = 0; i < ls.length; i++) {
+    newHistory[2].push((String(ls[i][2]) + "\n"))
+  }
+  return newHistory
+}
+
+function sortByCost(ls) {
+ ls.sort(costComparator)
+ let newHistory = [[], [], []]
+ for (let i = 0; i < ls.length; i++) {
+   newHistory[0].push((String(ls[i][0]) + "\n"))
+ }
+ for (let i = 0; i < ls.length; i++) {
+   newHistory[1].push((String(ls[i][1]) + "\n"))
+ }
+ for (let i = 0; i < ls.length; i++) {
+   newHistory[2].push((String(ls[i][2]) + "\n"))
+ }
+ return newHistory
+}
+
+
+function sortByCat(ls) {
+  ls.sort(costComparator)
+  let newHistory = [[], [], []]
+  for (let i = 0; i < ls.length; i++) {
+    newHistory[0].push((String(ls[i][0]) + "\n"))
+  }
+  for (let i = 0; i < ls.length; i++) {
+    newHistory[1].push((String(ls[i][1]) + "\n"))
+  }
+  for (let i = 0; i < ls.length; i++) {
+    newHistory[2].push((String(ls[i][2]) + "\n"))
+  }
+  return newHistory
+}
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -139,11 +330,11 @@ const styles = StyleSheet.create({
       },
 
       getStartedContainer2: {
-        backgroundColor: 'rgba(50, 200, 1000, 0.3)',
+        backgroundColor: 'rgba(50, 200, 1000, 0.5)',
         padding: 10,
-        borderRadius: 200,
+        borderRadius: 100,
         alignItems: 'center',
-        marginHorizontal: 50,
+        marginHorizontal: 10,
       },
       viewContainer: {
         flex: 1,
@@ -151,7 +342,6 @@ const styles = StyleSheet.create({
         marginTop: -1,
         marginBottom: 0,
         borderRightWidth: StyleSheet.hairlineWidth,
-        borderTopWidth: StyleSheet.hairlineWidth,
         borderBottomWidth: StyleSheet.hairlineWidth,
       },
 
@@ -214,12 +404,19 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
       },
       text: {
-        fontSize: 20,
+        fontSize: 18,
         color: 'rgba(96,100,109, 1)',
         lineHeight: 24,
         textAlign: 'center',
         textAlignVertical: 'top'
       },
+      highlight: {
+        borderRadius: 20,
+            },
+      buttons: {
+        flexDirection: 'row',
+        justifyContent: "space-evenly",
+      }
 })
 
 

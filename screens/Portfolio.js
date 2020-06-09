@@ -24,7 +24,7 @@ export default class Portfolio extends React.Component {
           label="View Current Portfolio"
           onPress={() => {
             const { navigate } = this.props.navigation
-            navigate('My Portfolio')
+            navigate('Overview')
           }}
           />
 

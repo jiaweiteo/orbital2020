@@ -12,10 +12,11 @@ import Portfolio from './screens/Portfolio'
 import PastPort from './screens/PastPort'
 import CreateBudget from './screens/CreateBudget'
 import EditBudget from './screens/EditBudget'
-import ViewCategory from './screens/ViewCategory'
 import SignUpContainer from './containers/SignUpContainer'
 import LoginPageContainer from './containers/LoginPageContainer'
 import ExpenseScreen from './screens/ExpenseScreen';
+import Overview from './screens/Overview';
+
 
 
 const Stack = createStackNavigator();
@@ -41,7 +42,7 @@ export default function App(props) {
             <Stack.Screen name = "Past Portfolio" component = {PastPort} />
             <Stack.Screen name = "Create New Budget" component = {CreateBudget} />
             <Stack.Screen name = "Edit Current Budget" component = {EditBudget} />
-            <Stack.Screen name = "View By Category" component = {ViewCategory} />
+            <Stack.Screen name = "Overview" component = {Overview} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

@@ -76,7 +76,6 @@ class EditBudget extends React.Component {
           <BackBtn 
             onPress = { () =>  {this.reset(); alert("Submitted");
             budget.updateBudget(money)
-            this.props.navigation.replace('Root');
             }}></BackBtn>
           
                 

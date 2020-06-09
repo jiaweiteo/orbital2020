@@ -34,34 +34,11 @@ class CreateBudget extends React.Component {
         this.setState({
           money: '',
           date: '',
-          category: '',
         })
       }
     
       render() {
-        const { money, date, category } = this.state;
-    
-        let data = [{
-          value: 'Grocery',
-        }, {
-          value: 'Food',
-        }, {
-          value: 'Drinks',
-        }, {
-          value: 'Rent',
-        }, {
-          value: 'Transport',
-        }, {
-          value: 'Utilites',
-        }, {
-          value: 'Insurance',
-        }, {
-          value: 'Entertainment',
-        }, {
-          value: 'Others',
-        }
-      ];
-    
+        const { money, date } = this.state;
     
       return (
         

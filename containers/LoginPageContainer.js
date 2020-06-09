@@ -142,9 +142,8 @@ class SignUpContainer extends React.Component {
                 >
                  Login
             </BlueButton>
-            {isSignUpSuccessful ? (<Text style={styles.text}>Sign Up Successful</Text>) : null}
 
-            <Text style = {styles.text2}> New User? Click here to sign up </Text>
+
             <BlueButton style = {styles.button2}
                     onPress = {() => {
                         this.props.navigation.replace("Sign Up")

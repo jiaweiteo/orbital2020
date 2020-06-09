@@ -1,9 +1,10 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import firebaseDb from '../firebaseDb';
+import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import BlueButton from "../components/BlueButton";
 
 
 
@@ -15,6 +16,12 @@ class HomeScreen extends React.Component {
     title: 'Home',
     headerLeft: null,
 };
+  state = {
+    budgett : budget.budget(),
+    budgetView : budget.remainder(),
+    showingPercentage: false,
+    colour: 'red'
+  }
 
 
   render() {
@@ -62,16 +69,52 @@ class HomeScreen extends React.Component {
 
               {/* Add current expenses from porfolio page */}
             <Text style={styles.headerText}>Current Expenses for the Month: </Text>
-            <View>
+            <View style = {styles.text3}>
               <Text style = {styles.expenseText}>${budget.state.expenses}</Text>
             </View>
 
               {/*  Budget - Expenses */}
             <Text style={styles.headerText}>Current Budget left: </Text>
             <View>
-              <Text style = {styles.expenseText}>{budget.remainder()}</Text>
+                 <Text style = {[styles.expenseText1, {color: this.state.color}]}        
+                 onPress={() => {
+                  if (this.state.showingPercentage == false) {
+                    this.setState({
+                      budgetView: budget.percentage(),
+                      showingPercentage: true,
+                    })
+                  } else {
+                    this.setState({
+                      budgetView: budget.remainder(),
+                      showingPercentage: false,
+                    })
+                  }
+                  if (budget.percentageNum() < 50) {
+                    this.setState({
+                      color: 'green',
+                    })
+                  } else if (budget.percentageNum() < 75) {
+                    this.setState({
+                      color: 'yellow',
+                    })
+                  } else if (budget.percentageNum() < 90) {
+                    this.setState({
+                      color: 'orange',
+                    })
+                  } else if (budget.percentage() == 'NaN% Spent') {
+                    this.setState({
+                      color: 'black',
+                    })
+                  } else {
+                    this.setState({
+                      color: 'red',
+                    })
+                  }
+                }}> {this.state.budgetView} </Text>
             </View>
-
+            <View>
+        
+            </View>
             <Text style={styles.headerText}>Days Left to end of Monthy Budget: </Text>
             <View>
               <Text style = {styles.expenseText}> {daysLeft(date, month, budgetDate)}</Text>
@@ -84,7 +127,6 @@ class HomeScreen extends React.Component {
     }
 
   }
-
 
 
 function monthInWords(month) {
@@ -117,7 +159,7 @@ function monthInWords(month) {
 
 function daysLeft(date, month, budgetDate) {
   if (budgetDate == 0) {
-    return "No Budget Plan Yet"
+    return "No Budget Date"
   }
   var daysInMonth = 0
   if (month == "1" || month == "3" || month == "5" || month == "7" || month == "8" || month == "10" || month == "12") {
@@ -147,6 +189,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
     lineHeight: 40,
     textAlign: 'center',
+  },
+  expenseText1: {
+    marginTop: 20,
+    fontWeight: 'bold',
+    fontSize: 40,
+    lineHeight: 40,
+    textAlign: 'center',
+    marginLeft: 30,
+    marginRight: 30,
+
   },
 
   welcomeContainer: {
@@ -189,6 +241,13 @@ const styles = StyleSheet.create({
 
   text2: {
     flexDirection: 'column',
+  },
+
+  text3: {
+    flexDirection: "row",
+  },
+  button: {
+    backgroundColor: 'rgba(0,0,0,0)'
   }
 
 });

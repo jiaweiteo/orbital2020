@@ -6,6 +6,7 @@ import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import BackBtn from '../components/BackBtn';
 import { Dropdown } from 'react-native-material-dropdown';
 import ExpenseScreen from '../screens/ExpenseScreen';
+import firebase from "firebase";
 
 
 class TrackBudget extends React.Component {
@@ -21,8 +22,27 @@ class TrackBudget extends React.Component {
           history: [],
           date: 0,
         };
-      }
+        this.addPortfolio = this.addPortfolio.bind(this),
+        this.state.budget = 0;
 
+      }
+      addPortfolio() {
+        var user = firebase.auth().currentUser;
+        var checkMonth = firebase.firestore().collection("users").doc(user.uid)
+
+        checkMonth.collection('June').doc('Expenses').set({
+            expenses: this.state.expenses,
+        }).then();
+        checkMonth.collection('June').doc('Items').set({
+            items: firebase.firestore.FieldValue.arrayUnion.apply(null, this.state.itemH),
+        }).then();
+        checkMonth.collection('June').doc('Cost').set({
+            cost: firebase.firestore.FieldValue.arrayUnion.apply(null, this.state.costH),
+        }).then();
+        checkMonth.collection('June').doc('Category').set({
+            category: firebase.firestore.FieldValue.arrayUnion.apply(null, this.state.catH),
+        }).then();
+    }
       updateUser(name) {
         this.state.user = name;
       }
@@ -44,13 +64,20 @@ class TrackBudget extends React.Component {
       updateBudget(money) {
         this.state.budget = 0
         this.state.budget += Number(money)
+
+        var user = firebase.auth().currentUser;
+        var checkMonth = firebase.firestore().collection("users").doc(user.uid)
+
+        checkMonth.collection('June').doc('Budget').set({
+            budget: this.state.budget,
+        }).then();
       }
   
       updateHistory(item, cost, category) {
         this.state.itemH.push(item + "\n");
         this.state.costH.push(cost + "\n");
         this.state.catH.push(category + "\n");
-        this.state.history.push([String(item), String(cost), String(category)])
+        this.state.history.push([String(item), Number(cost), String(category)])
       }
 
       getBudgetDate() {
@@ -61,6 +88,19 @@ class TrackBudget extends React.Component {
           return this.state.budget
       }
 
+      percentage() {
+        const p = (100 * (this.state.expenses)/ (this.state.budget))
+        const pString = String(p) + "% Spent"
+        return pString
+      }
+
+      percentageNum() {
+        return (100 * (this.state.expenses)/ (this.state.budget))
+      }
+
+      color() {
+        return this.state.color
+      }
       expenses() {
         if (this.state.costH === null) {
           return 0
@@ -75,16 +115,60 @@ class TrackBudget extends React.Component {
       }
 
       remainder() {
-          if (this.state.budget - this.state.expenses < 0) {
-              return 'Exceeded by $ ' + String(-1 * (this.state.budget - this.state.expenses));
-          } else {
-            return '$' + String(this.state.budget - this.state.expenses)
+        if (this.state.budget - this.state.expenses < 0) {
+            var leftover = 'Exceeded by $ ' + String(-1 * (this.state.budget - this.state.expenses));
+
+            var user = firebase.auth().currentUser;
+            firebase.firestore().collection("users").doc(user.uid).collection('June').doc('LeftOver').set({
+                leftover: leftover,
+            }).then();
+            return leftover;
+
+        } else {
+            var leftover = '$' + String(this.state.budget - this.state.expenses);
+
+            var user = firebase.auth().currentUser;
+            firebase.firestore().collection("users").doc(user.uid).collection('June').doc('LeftOver').set({
+                leftover: leftover,
+            }).then();
+            return leftover;
+        }
+    }
+      deleteItem(key) {
+        const id = Number(key)
+        const newHistory = []
+        const newItemH = []
+        const newCostH = []
+        const newCatH = []
+        const store = []
+        for (let i = 0; i < this.state.history.length; i++) {
+          if (i == id) {
+            this.state.expenses -= this.state.costH[i]
           }
+          if (i != id) {
+            newHistory.push(this.state.history[i])
+            newItemH.push(this.state.itemH[i])
+            newCostH.push(this.state.costH[i])
+            newCatH.push(this.state.catH[i])
+          }
+        }
+        store.push(newHistory)
+        store.push(newItemH)
+        store.push(newCostH)
+        store.push(newCatH)
+        this.state.history = newHistory
+        this.state.itemH = newItemH
+        this.state.costH = newCostH
+        this.state.catH = newCatH
+        return store
       }
+
+
+
 
 
     }
 
 const budget = new TrackBudget()
-
 export default budget
+

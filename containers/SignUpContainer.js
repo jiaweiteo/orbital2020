@@ -4,6 +4,7 @@ import BlueButton from "../components/BlueButton";
 import firebaseDb from '../firebaseDb';
 import budget from '../components/TrackBudget';
 import { LinearGradient } from 'expo-linear-gradient';
+import {signUp} from "../API/Collection";
 
 
 class SignUpContainer extends React.Component {
@@ -17,6 +18,7 @@ class SignUpContainer extends React.Component {
             error: "",
             isSignUpSuccessful: false,
         }
+        this.onSignUpPress = this.onSignUpPress.bind(this);
     }
 
     static navigationOptions = {
@@ -71,44 +73,14 @@ class SignUpContainer extends React.Component {
     handleUpdateEmail = (email) => {this.setState({email})};
     handleUpdatePassword = (password) => {this.setState({password})};
 
-    handleCreateUser = () =>
-        firebaseDb
-            .firestore()
-            .collection('users')
-            .add({
-                name: this.state.name,
-                email: this.state.email,
-                password: this.state.password
-            })
-            .then(() =>
-                this.setState({
-                    name: '',
-                    email: '',
-                    password: '',
-                    isSignUpSuccessful: true
-            }))
-            .catch(err => console.error(err))
-            
-        
-    onSignUpPress = () =>
-            firebaseDb.auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((cred) => {W
-                return firebaseDb.firestore().collection('users').doc(cred.user.uid).set({
-                    name: this.state.name,
-                    email: this.state.email,
-                    password: this.state.password,
-                })
-            }).then(() => {
-                this.setState({
-                    name: '',
-                    email: '',
-                    password: '',
-                    isSignUpSuccessful: true
-                })
-            })
-            .catch(err => console.error(err))
+    onSignUpPress = () => signUp({
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        isSignUpSuccessful: this.state.isSignUpSuccessful,
 
+    });
+    
     render() {
     const {name, email, password, isSignUpSuccessful} = this.state
 

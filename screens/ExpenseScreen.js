@@ -44,9 +44,9 @@ export default class ExpenseScreen extends React.Component {
     let data = [{
       value: 'Grocery',
     }, {
-      value: 'Food',
+      value: 'Food and Dining',
     }, {
-      value: 'Drinks',
+      value: 'Shopping',
     }, {
       value: 'Rent',
     }, {
@@ -58,7 +58,11 @@ export default class ExpenseScreen extends React.Component {
     }, {
       value: 'Entertainment',
     }, {
-      value: 'Others',
+      value: 'Personal Care',
+    }, {
+      value: 'Miscellaneous'
+    }, {
+      value: 'Others'
     }
   ];
 
@@ -112,6 +116,7 @@ export default class ExpenseScreen extends React.Component {
         budget.updateExpenses(cost)
         budget.updateHistory(text, cost, category)
         this.props.navigation.replace('Root');
+        budget.addPortfolio()
           }}></BackBtn>
       
             
