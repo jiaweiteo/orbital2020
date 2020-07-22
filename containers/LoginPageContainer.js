@@ -44,7 +44,6 @@ class LoginPageContainer extends React.Component {
         date: 0,
         month: "",
         dateID: "",
-        email: "",
         uri: "",
 
 
@@ -337,11 +336,6 @@ class LoginPageContainer extends React.Component {
                             <Text style={styles.errorMsg}>Password must be at least 6 characters long.</Text>
                         </Animatable.View>
                     }
-
-
-                    <TouchableOpacity>
-                        <Text style={{color: '#009387', marginTop: 15}}>Forgot password?</Text>
-                    </TouchableOpacity>
                     <View style={styles.button}>
                         <TouchableOpacity
                             style={styles.signIn}

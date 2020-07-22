@@ -24,8 +24,6 @@ export default function BottomTabNavigator({navigation, route}) {
             inactiveColor="#A7A3A3"
             barStyle={{             
                 backgroundColor: 'transparent',
-                borderTopLeftRadius: 15,
-                borderTopRightRadius: 15,
                 borderColor: 'transparent',
                 overflow: "scroll",
             }}
@@ -37,7 +35,7 @@ export default function BottomTabNavigator({navigation, route}) {
                 component={ExpenseNavigateScreen}
                 options={{
                     tabBarLabel: 'Add',
-                    tabBarColor: '#009387',
+                    tabBarColor: '#4682b4',
                     tabBarIcon: ({color}) => (
                         <Icon name="ios-add" color={color} size={26}/>
                     )
@@ -97,7 +95,7 @@ function getHeaderTitle(route) {
 const ExpenseNavigateScreen = ({navigation}) => (
     <HomeStack.Navigator screenOptions={{
         headerStyle: {
-            backgroundColor: '#009387',
+            backgroundColor: '#4682b4',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -107,7 +105,7 @@ const ExpenseNavigateScreen = ({navigation}) => (
         <HomeStack.Screen name="Home" component={ExpenseScreen} options={{
             title:'Add',
             headerLeft: () => (
-                <Icon.Button name="ios-menu" size={25} backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
+                <Icon.Button name="ios-menu" size={25} backgroundColor="#4682b4" onPress={() => navigation.openDrawer()}></Icon.Button>
             )
         }} />
     </HomeStack.Navigator>

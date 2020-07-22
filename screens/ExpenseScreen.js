@@ -1,230 +1,282 @@
-import { Ionicons } from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { StyleSheet, Text, View, TextInput, Alert, Dimensions } from 'react-native';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Alert,
+    Image,
+    Dimensions,
+    Platform,
+    KeyboardAvoidingView,
+    StatusBar, TouchableOpacity
+} from 'react-native';
+import {RectButton, ScrollView} from 'react-native-gesture-handler';
 import BackBtn from '../components/BackBtn';
-import { Dropdown } from 'react-native-material-dropdown';
+import {Dropdown} from 'react-native-material-dropdown';
 import PropTypes from "prop-types";
 import TrackBudget from '../components/TrackBudget'
 import budget from '../components/TrackBudget';
 import HomeScreen from './HomeScreen';
-import { LinearGradient } from 'expo-linear-gradient';
+import {LinearGradient} from 'expo-linear-gradient';
 import trackCouple from '../components/TrackCouple'
-
+import * as Animatable from "react-native-animatable";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
+import {getLocalAssets} from "expo-asset/build/PlatformUtils";
+import KeyboardAwareScrollView from "@pietile-native-kit/keyboard-aware-scrollview";
 
 
 export default class ExpenseScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: "",
-      cost: "",
-      category: ""
-    };
-  }
-
-  updateItem = text => this.setState({text})
-
-  updateCost = cost => this.setState({cost})
-
-  updateCategory = category => this.setState({category})
-
-  reset = () => {
-    this.setState({
-      cost: '',
-      text: '',
-      category: '',
-    })
-  }
-
-  render() {
-    const { text, cost, category} = this.state;
-
-    let data = [{
-      value: 'Grocery',
-    }, {
-      value: 'Food and Dining',
-    }, {
-      value: 'Shopping',
-    }, {
-      value: 'Transport',
-    }, {
-      value: 'Utilites',
-    }, {
-      value: 'Insurance',
-    }, {
-      value: 'Entertainment',
-    }, {
-      value: 'Personal Care',
-    }, {
-      value: 'Miscellaneous'
-    }, {
-      value: 'Others'
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: "",
+            cost: "",
+            category: ""
+        };
     }
-  ];
- 
-  const promptUser = () => {
-    if (trackCouple.getUser() == "") {
-      alert("Added!");
-      budget.updateExpenses(cost.trim())
-      budget.updateHistory(text.trim(), cost.trim(), category)
-      budget.addPortfolio()
-      this.props.navigation.replace('Root');
-    } else {
-      const title = 'Submit Expense?';
-      const message = "Tap on Individual to include expense in own budget." + "\n" + 
-      "Tap on Couple to incluse expense in couple budget.";
-      const buttons = [
-          { text: 'Cancel', onPress: () => {}},
-          { text: 'Couple', onPress: () =>  {
-            alert("Added to Couple Expense!")
-            trackCouple.updateExpenses(cost.trim())
-            trackCouple.updateHistory(text.trim(), cost.trim(), category)
-            trackCouple.addPortfolio()
-            this.props.navigation.replace('Root');
-            }
-          },
-          { text: 'Individual', onPress: () => {
-            alert("Added to Individual Expense!");
-            budget.updateExpenses(cost.trim())
-            budget.updateHistory(text.trim(), cost.trim(), category)
-            budget.addPortfolio()
-            this.props.navigation.replace('Root');
-            }
-          }
-      ];
-      Alert.alert(title, message, buttons);
+
+    updateItem = text => this.setState({text})
+
+    updateCost = cost => this.setState({cost})
+
+    updateCategory = category => this.setState({category})
+
+    reset = () => {
+        this.setState({
+            cost: '',
+            text: '',
+            category: '',
+        })
     }
-    
-  }
 
+    render() {
+        const {text, cost, category} = this.state;
 
+        let data = [{
+            value: 'Grocery',
+        }, {
+            value: 'Food and Dining',
+        }, {
+            value: 'Shopping',
+        }, {
+            value: 'Transport',
+        }, {
+            value: 'Utilites',
+        }, {
+            value: 'Insurance',
+        }, {
+            value: 'Entertainment',
+        }, {
+            value: 'Personal Care',
+        }, {
+            value: 'Miscellaneous'
+        }, {
+            value: 'Others'
+        }
+        ];
 
-  return (
-    <View style = {styles.container}>
-              <LinearGradient
-          colors={['rgba(0, 147, 135, 1)', 'transparent',]}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 700,
-          }}
-        />
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-
-      <View style = {styles.header1}>
-        <Text style = {styles.header}> Add new expense </Text>
-      </View>
-      <View style = {styles.content}>
-      {/* Input Text */}
-      <TextInput style = {styles.item}
-        placeholder = "Item"
-        onChangeText={this.updateItem}
-        value={text}
-      />
-      </View>
-
-        {/* Slide down choices */}
-      <Dropdown style = {styles.category}
-        itemCount = {5}
-        label="Category"
-        data = {data}
-        onChangeText = {this.updateCategory}
-        value = {category}
-      />
-
-      <View style = {styles.content}>
-        {/* Numbers only */}
-      <TextInput style = {styles.item}
-        placeholder = "Cost"
-        onChangeText = {this.updateCost}
-        value = {cost}
-        keyboardType = {'numeric'}
-        />
-        </View>
-
-      <BackBtn 
-        onPress = { () =>  {
-            if (this.state.text.trim() == "" || this.state.category == "" || this.state.cost.trim() == "") {
-              alert("Cannot have empty fields!")
-              this.reset();
-            } else if (isNaN(this.state.cost) ) {
-              alert("Invalid Expense! Expense must be a number");
-              this.setState({cost: ""});
+        const promptUser = () => {
+            if (trackCouple.getUser() == "") {
+                alert("Added!");
+                budget.updateExpenses(cost.trim())
+                budget.updateHistory(text.trim(), cost.trim(), category)
+                budget.addPortfolio()
+                this.props.navigation.replace('Root');
             } else {
-              this.reset(); 
-              promptUser();
+                const title = 'Submit Expense?';
+                const message = "Tap on Individual to include expense in own budget." + "\n" +
+                    "Tap on Couple to incluse expense in couple budget.";
+                const buttons = [
+                    {
+                        text: 'Cancel', onPress: () => {
+                        }
+                    },
+                    {
+                        text: 'Couple', onPress: () => {
+                            alert("Added to Couple Expense!")
+                            trackCouple.updateExpenses(cost.trim())
+                            trackCouple.updateHistory(text.trim(), cost.trim(), category)
+                            trackCouple.addPortfolio()
+                            this.props.navigation.replace('Root');
+                        }
+                    },
+                    {
+                        text: 'Individual', onPress: () => {
+                            alert("Added to Individual Expense!");
+                            budget.updateExpenses(cost.trim())
+                            budget.updateHistory(text.trim(), cost.trim(), category)
+                            budget.addPortfolio()
+                            this.props.navigation.replace('Root');
+                        }
+                    }
+                ];
+                Alert.alert(title, message, buttons);
             }
-          }}> Submit </BackBtn>
-      
-            
-    </ScrollView>
-    </View>
-  );
-}
+
+        }
+
+
+        return (
+            <KeyboardAwareScrollView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.text_header}>Add New Expense</Text>
+                </View>
+                <Animatable.View
+                    animation="fadeInUpBig"
+                    style={styles.footer}
+                >
+                    <Animatable.Image
+                        animation="bounceIn"
+                        duraton="1500"
+                        source={require('../assets/images/Logo.png')}
+                        style={styles.logo}
+                        resizeMode="stretch"
+                    />
+                    <View style={styles.action}>
+                        <TextInput
+                            placeholderTextColor="#fff"
+                            style={styles.textInput}
+                            autoCapitalize="none"
+                            placeholder="Item"
+                            onChangeText={this.updateItem}
+                            value={text}
+                        />
+
+                    </View>
+
+                    <Dropdown style={styles.category}
+                              itemCount={5}
+                              label="Category"
+                              data={data}
+                              onChangeText={this.updateCategory}
+                              value={category}
+                    />
+
+                    <View style={styles.action}>
+                        <TextInput
+                            placeholderTextColor="#fff"
+                            style={styles.textInput}
+                            placeholder = "Cost"
+                            onChangeText = {this.updateCost}
+                            value = {cost}
+                            keyboardType = {'numeric'}
+                        />
+                    </View>
+
+                <View style={styles.button}>
+                    <TouchableOpacity
+                        style={styles.signIn}
+                        onPress = { () =>  {
+                            if (this.state.text.trim() == "" || this.state.category == "" || this.state.cost.trim() == "") {
+                                alert("Cannot have empty fields!")
+                                this.reset();
+                            } else if (isNaN(this.state.cost) ) {
+                                alert("Invalid Expense! Expense must be a number");
+                                this.setState({cost: ""});
+                            } else {
+                                this.reset();
+                                promptUser();
+                            }
+                        }}
+                    >
+                        <LinearGradient
+                            colors={['#08d4c4', '#01ab9d']}
+                            style={styles.signIn}
+                        >
+                            <Text style={[styles.textSign, {
+                                color: '#fff'
+                            }]}>Submit</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
+                </View>
+                </Animatable.View>
+            </KeyboardAwareScrollView>
+        )
+    }
 }
 
+
+const {height} = Dimensions.get("screen");
+const height_logo = height * 0.28;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 15,
-    flex: 1,
-    backgroundColor: '#fafafa',
-    flexDirection: 'column',
-  },
-  contentContainer: {
-    paddingTop: 15,
-  },
-  optionIconContainer: {
-    marginRight: 12,
-  },
-  option: {
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  optionText: {
-    fontSize: 15,
-    alignSelf: 'flex-start',
-    marginTop: 1,
-  },
-  item: {
-    marginTop: 20,
-    marginBottom: 20,
-    fontSize: 15,
-    alignSelf: 'center',
-    alignContent: 'stretch',
-    textAlign: "center",
-    width: Dimensions.get("screen").width
-  },
-  category: {
-    marginBottom: 20,
-    alignSelf:'center',
-  },
-  content: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  header: {
-      fontSize: 30,
-      color: 'black',
-      textAlign: 'center',
-      fontWeight: 'bold',
-  },
-  header1: {
-    marginTop: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
-    backgroundColor: 'rgba(50, 125, 255, 0.5)'
-  }
+    container: {
+        flex: 1,
+        backgroundColor: '#4682b4'
+    },
+    logo: {
+        width: height_logo,
+        height: height_logo,
+        flexDirection: "column",
+    },
+    header: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingHorizontal: 20,
+        paddingBottom: 80
+    },
+    footer: {
+        flex: 9,
+        backgroundColor: '#e6e6fa',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingHorizontal: 80,
+        paddingVertical: -20,
+    },
+    text_header: {
+        marginTop: 10,
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 30
+    },
+    category: {
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 15,
+        alignSelf:'center'
+    },
+    action: {
+        flexDirection: 'row',
+        borderWidth: 2,
+        padding: 15,
+        borderColor: "#4682b4",
+        borderRadius: 8,
+        marginTop: 20,
+        alignItems: "center",
+        backgroundColor: '#4682b4',
+    },
+    textInput: {
+        fontSize: 20,
+        fontWeight: 'bold',
+
+        flex: 2,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        color: "#fff",
+        alignSelf: 'center',
+        alignContent: 'stretch',
+        textAlign: "center",
+    },
+    button: {
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    signIn: {
+        width: "110%",
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+    textSign: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    }
 });
