@@ -122,20 +122,39 @@ export default class ExpenseScreen extends React.Component {
 
         return (
             <KeyboardAwareScrollView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.text_header}>Add New Expense</Text>
-                </View>
-                <Animatable.View
-                    animation="fadeInUpBig"
-                    style={styles.footer}
-                >
-                    <Animatable.Image
+                <LinearGradient
+                    colors={['#4682b4', "transparent"]}
+                    style={{
+                          position: 'absolute',
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          height: 250,
+                        }}
+                  />  
+                <Animatable.Image
                         animation="bounceIn"
                         duraton="1500"
                         source={require('../assets/images/Logo.png')}
                         style={styles.logo}
                         resizeMode="stretch"
-                    />
+                    />            
+                <Animatable.View
+                    animation="fadeInUpBig"
+                    style={styles.footer}
+                >
+                <LinearGradient
+                    colors={["#rgba(70, 130, 180, 0.5)", "transparent"]}
+                    style={{
+                          position: 'absolute',
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          borderTopLeftRadius: 30,
+                          borderTopRightRadius: 30,
+                          height: 600,
+                        }}
+                  />  
                     <View style={styles.action}>
                         <TextInput
                             placeholderTextColor="#fff"
@@ -148,12 +167,19 @@ export default class ExpenseScreen extends React.Component {
 
                     </View>
 
-                    <Dropdown style={styles.category}
+                    <Dropdown
                               itemCount={5}
                               label="Category"
                               data={data}
                               onChangeText={this.updateCategory}
                               value={category}
+                              baseColor= "white"
+                              textColor= "white"
+                              itemColor= "black"
+                              selectedItemColor= "rgba(70, 130, 180, 1)"
+                              containerStyle= {styles.category}
+                              labelTextStyle= {styles.textSign2}
+                              inputContainerStyle= {styles.textSign2}
                     />
 
                     <View style={styles.action}>
@@ -206,12 +232,13 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#4682b4'
+        backgroundColor: 'transparent'
     },
     logo: {
         width: height_logo,
         height: height_logo,
         flexDirection: "column",
+        alignSelf: "center",
     },
     header: {
         flex: 1,
@@ -221,7 +248,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         flex: 9,
-        backgroundColor: '#e6e6fa',
+        backgroundColor: 'transparent',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingHorizontal: 80,
@@ -234,10 +261,10 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     category: {
-        borderWidth: 1,
+        backgroundColor: "#4682b4",
+        marginTop: 10,
         borderRadius: 8,
-        padding: 15,
-        alignSelf:'center'
+        textAlign: "center",
     },
     action: {
         flexDirection: 'row',
@@ -245,14 +272,14 @@ const styles = StyleSheet.create({
         padding: 15,
         borderColor: "#4682b4",
         borderRadius: 8,
-        marginTop: 20,
+        marginTop: 30,
+        marginBottom: 30,
         alignItems: "center",
         backgroundColor: '#4682b4',
     },
     textInput: {
         fontSize: 20,
         fontWeight: 'bold',
-
         flex: 2,
         flexDirection: "row",
         alignItems: "center",
@@ -265,7 +292,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 50,
         marginBottom: 10,
     },
     signIn: {
@@ -277,6 +304,13 @@ const styles = StyleSheet.create({
     },
     textSign: {
         fontSize: 20,
-        fontWeight: 'bold'
-    }
+        fontWeight: 'bold',
+        justifyContent: "center",
+    },
+    textSign2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        justifyContent: "center",
+        paddingLeft: 60,
+    },
 });

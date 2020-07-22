@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    marginTop: 20,
+    marginTop: 0,
     backgroundColor: '#003D7C',
     borderRadius: 200,
   },
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
+    fontWeight: "bold",
     color: 'white',
     textAlign: 'center'
   }

@@ -110,35 +110,40 @@ class Search extends React.Component {
           
           {/* Input Text */}
           <TextInput style = {styles.item}
-            placeholder = "Search Username"
+            placeholder = "Username"
+            placeholderTextColor = "white"
             onChangeText={this.updateName}
             value={id}
             
           />
-    
-
-          <BackBtn 
-            onPress = { () => {
-                let exist = false;
-              if (this.state.id == "" || this.state.id == "-" || this.state.id == " " || this.state.id == ",") {
-                alert("Invalid Field!");
-              } else {
-                var user = firebaseDb.firestore().collection("users")
-                user.where("name", "==", id).get()
-                    .then(function(querySnapshot) {
-                        querySnapshot.forEach(function(doc) {
-                            promptUser(id, doc.id)
-                            exist = true;
+        
+        <View style = {styles.container2}> 
+          <LinearGradient
+                  colors={['#003D7C', 'rgba(211, 213, 217, 0.6)']}
+                  style={styles.signIn}>
+              <BackBtn style = {styles.button}
+                onPress = { () => {
+                    let exist = false;
+                  if (this.state.id == "" || this.state.id == "-" || this.state.id == " " || this.state.id == ",") {
+                    alert("Invalid Field!");
+                  } else {
+                    var user = firebaseDb.firestore().collection("users")
+                    user.where("name", "==", id).get()
+                        .then(function(querySnapshot) {
+                            querySnapshot.forEach(function(doc) {
+                                promptUser(id, doc.id)
+                                exist = true;
+                            });
+                        }).then(() => {if (exist == false) {alert("User does not exist!")}})
+                        .catch(function(error) {
+                            alert("Error getting documents: " + error);
                         });
-                    }).then(() => {if (exist == false) {alert("User does not exist!")}})
-                    .catch(function(error) {
-                        alert("Error getting documents: " + error);
-                    });
-                }
-                this.reset();
-              }}> Search
-          </BackBtn>
-          
+                    }
+                    this.reset();
+                  }}> Search
+              </BackBtn>
+            </LinearGradient>
+          </View>
                 
         </ScrollView>
         </View>
@@ -148,45 +153,54 @@ class Search extends React.Component {
     }
     
     
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: '#fafafa',
-        flexDirection: 'column',
-      },
-      contentContainer: {
-        paddingTop: 15,
-      },
-      optionIconContainer: {
-        marginRight: 12,
-      },
-      option: {
-        backgroundColor: '#fdfdfd',
-        paddingHorizontal: 15,
-        paddingVertical: 15,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderBottomWidth: 0,
-        borderColor: '#ededed',
-      },
-      lastOption: {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-      },
-      optionText: {
-        fontSize: 15,
-        alignSelf: 'flex-start',
-        marginTop: 1,
-      },
-      item: {
-        marginTop: 20,
-        marginBottom: 20,
-        fontSize: 15,
-        alignSelf: 'center',
-      },
-      category: {
-        marginBottom: 20,
-        alignSelf:'center',
-      }
-    });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  contentContainer: {
+    paddingTop: 15,
+  },
+  item: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    flex: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    backgroundColor: "rgba(20, 193, 164, 0.5)",
+    alignSelf: 'center',
+    alignContent: 'stretch',
+    textAlign: "center",
+    padding: 20,
+    width: "80%",
+    borderRadius: 30,
+  },
+  button: {
+    width: 150,
+    backgroundColor: "transparent",
+    alignSelf: "center",
+  },
+  button2: {
+    width: 150,
+    backgroundColor: "transparent",
+  },
+  container2: {
+    flexDirection: "row",
+    alignSelf: "center",
+  },
+  signIn: {
+    height: 50,
+    marginTop: 30,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    flexDirection: 'row',
+    width: "80%"
+  },
+});
     
 
 export default Search

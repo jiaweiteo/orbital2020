@@ -76,7 +76,7 @@ class HomeStackScreen extends React.Component {
                 <Stack.Screen options={{headerStyle: {backgroundColor: '#d02860',},  headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'bold' }}} name="Couple Portfolio" component={CoupleCurrentPort}/>
                 <Stack.Screen options={{headerStyle: {backgroundColor: '#d02860',},  headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'bold' }}} name="Couple Past Portfolio" component={PastCouplePort}/>
                 <Stack.Screen options={{headerStyle: {backgroundColor: '#d02860',},  headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'bold' }}} name="More" component={CoupleMore}/>
-                <Stack.Screen options={{headerStyle: {backgroundColor: '#009387',},  headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'bold' }}} name="Split Expense" component={SplitExpense}/>
+                <Stack.Screen options={{headerStyle: {backgroundColor: '#4682b4',},  headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'bold' }}} name="Split Expense" component={SplitExpense}/>
 
             </Stack.Navigator>
         )

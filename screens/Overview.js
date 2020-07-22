@@ -251,17 +251,17 @@ export default class Overview extends React.Component {
         style={styles.footer}
         animation="fadeInUpBig"
         >
-                  <LinearGradient
+        <LinearGradient
             colors={['rgba(0, 147, 135, 1)', 'transparent',]}
             style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  borderTopLeftRadius: 30,
-                  borderTopRightRadius: 30,
-                  height: 500,
-                }}
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              borderTopLeftRadius: 30,
+              borderTopRightRadius: 30,
+              height: 500,
+            }}
           />
         <FlatList
  
@@ -349,6 +349,7 @@ const styles = StyleSheet.create({
     flex: 1,
  
   },
+  
   footer: {
     backgroundColor: 'rgba(20, 223, 115, 0.3)',
     flex: 1,

@@ -64,13 +64,13 @@ class EditBudget extends React.Component {
       return (
         <View style = {styles.container}>           
           <LinearGradient
-            colors={['rgba(0, 147, 135, 1)', 'transparent',]}
+            colors={['rgba(20, 193, 164, 0.2)', 'rgba(0, 147, 135, 1)']}
             style={{
                   position: 'absolute',
                   left: 0,
                   right: 0,
                   top: 0,
-                  height: 700,
+                  height: 800,
                 }}
           />
         <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -78,6 +78,7 @@ class EditBudget extends React.Component {
           {/* Input Text */}
           <TextInput style = {styles.item}
             placeholder = "Budget Amount"
+            placeholderTextColor = "white"
             onChangeText={this.updateBudget}
             value={money}
             keyboardType = {'numeric'}
@@ -85,32 +86,40 @@ class EditBudget extends React.Component {
     
 
           <View style = {styles.container2}> 
-          <BackBtn style = {styles.button}
-            onPress = { () => {
-              if (trackCouple.getUser() == "") {
-                alert("You do not have a couple to start a shared budget plan!")
-              } else {
-              if (this.state.money.trim() == "") {
-                alert("Cannot have empty fields!");
-                this.reset();
-              } else if (isNaN(this.state.money)) {
-                alert("Budget is not a Number!");
-                this.reset();
-              } else{ promptCouple()}}}
-            }
-            >Couple Budget</BackBtn>
-
-          <BackBtn style = {styles.button2}
-            onPress = { () => {
-              if (this.state.money.trim() == "") {
-                alert("Cannot have empty fields!");
-                this.reset();
-              } else if (isNaN(this.state.money)) {
-                alert("Budget is not a Number!");
-                this.reset();
-              }else{ promptUser()}}}
-            > Individual Budget</BackBtn>
-            </View>
+          <LinearGradient
+            colors={['rgba(209, 9, 9, 1)', 'rgba(211, 213, 217, 1)']}
+            style={styles.signIn}>
+              <BackBtn style = {styles.button}
+                onPress = { () => {
+                  if (trackCouple.getUser() == "") {
+                    alert("You do not have a couple to start a shared budget plan!")
+                  } else {
+                  if (this.state.money.trim() == "") {
+                    alert("Cannot have empty fields!");
+                    this.reset();
+                  } else if (isNaN(this.state.money)) {
+                    alert("Budget is not a Number!");
+                    this.reset();
+                  } else{ promptCouple()}}}
+                }
+                >Couple Budget</BackBtn>
+            </LinearGradient>
+            
+          <LinearGradient
+            colors={['rgba(1, 86, 196, 1)', 'rgba(211, 213, 217, 1)']}
+            style={styles.signIn}>
+              <BackBtn style = {styles.button2}
+                onPress = { () => {
+                  if (this.state.money.trim() == "") {
+                    alert("Cannot have empty fields!");
+                    this.reset();
+                  } else if (isNaN(this.state.money)) {
+                    alert("Budget is not a Number!");
+                    this.reset();
+                  }else{ promptUser()}}}
+                > Individual Budget</BackBtn>
+            </LinearGradient>
+          </View>
           
                 
         </ScrollView>
@@ -121,64 +130,53 @@ class EditBudget extends React.Component {
     }
     
     
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
       container: {
         flex: 1,
-        backgroundColor: '#fafafa',
         flexDirection: 'column',
       },
       contentContainer: {
         paddingTop: 15,
       },
-      optionIconContainer: {
-        marginRight: 12,
-      },
-      option: {
-        backgroundColor: '#fdfdfd',
-        paddingHorizontal: 15,
-        paddingVertical: 15,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderBottomWidth: 0,
-        borderColor: '#ededed',
-      },
-      lastOption: {
-        borderBottomWidth: StyleSheet.hairlineWidth,
-      },
-      optionText: {
-        fontSize: 15,
-        alignSelf: 'flex-start',
-        marginTop: 1,
-      },
       item: {
-        marginTop: 20,
-        marginBottom: 20,
-        fontSize: 15,
+        fontSize: 20,
+        fontWeight: 'bold',
+        flex: 2,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "white",
+        backgroundColor: "rgba(20, 193, 164, 0.5)",
         alignSelf: 'center',
+        alignContent: 'stretch',
         textAlign: "center",
-        width: Dimensions.get("screen").width
-      },
-      category: {
-        marginBottom: 20,
-        alignSelf:'center',
+        padding: 20,
+        width: "80%",
+        borderRadius: 30,
       },
       button: {
-        marginTop: 42,
         width: 150,
-        backgroundColor: "#F75E5E",
-        borderWidth: 2,
+        backgroundColor: "transparent",
       },
       button2: {
-        marginTop: 42,
         width: 150,
-        marginLeft: 20,
-        backgroundColor: "#5E9EF7",
-        borderWidth: 2,
+        backgroundColor: "transparent",
       },
       container2: {
         flexDirection: "row",
         alignSelf: "center",
-      }
-    });
+      },
+      signIn: {
+        width: 150,
+        height: 100,
+        marginTop: 30,
+        margin: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
+        flexDirection: 'row'
+    },
+});
     
 
 export default EditBudget

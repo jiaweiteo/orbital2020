@@ -12,6 +12,9 @@ import HomeScreen from './HomeScreen';
 import { LinearGradient } from 'expo-linear-gradient';
 import trackCouple from '../components/TrackCouple'
 import firebaseDb from '../firebaseDb'
+import * as Animatable from "react-native-animatable";
+import KeyboardAwareScrollView from "@pietile-native-kit/keyboard-aware-scrollview";
+
 
 
 
@@ -52,6 +55,8 @@ export default class SplitExpense extends React.Component {
         let uid = "";
         if (this.state.friend == "" || this.state.friend == "-" || this.state.friend == " " || this.state.friend == ",") {
           alert("Invalid Field!");
+        } else if (this.state.friend == budget.getUser()) {
+          alert("Cannot add yourself!");
         } else {
             let existingUser = false;
             for (let i = 0; i < this.friends.length; i++) {
@@ -223,7 +228,7 @@ export default class SplitExpense extends React.Component {
       if (Nan == true) {
         alert("Invalid Input of Expense!")
       } else if (sum > this.state.cost) {
-          alert("Invalid Distribution of Expense!")
+          alert("Split amount is more than expense!")
       } else {
         const userPay = this.state.cost - sum;
         const title = 'Split Expense?';
@@ -252,70 +257,41 @@ export default class SplitExpense extends React.Component {
     }
 
   return (
-    <View style = {styles.container}>
+      <KeyboardAwareScrollView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
           <LinearGradient
-            colors={['rgba(0, 147, 135, 1)', 'transparent',]}
-            style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  height: 700,
-                }}
-          />
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-
-
-      {/* Input Text */}
-      <TextInput style = {styles.textInputStyle}
-        placeholder = "Item"
-        onChangeText={this.updateItem}
-        value={text}
-      />
-
-
-        {/* Slide down choices */}
-      <Dropdown style = {styles.category}
-        itemCount = {5}
-        label="Category"
-        data = {data}
-        onChangeText = {this.updateCategory}
-        value = {category}
-      />
-
-        {/* Numbers only */}
-      <TextInput style = {styles.textInputStyle}
-        placeholder = "Cost"
-        onChangeText = {this.updateCost}
-        value = {cost}
-        keyboardType = {'numeric'}
-        />
-
+              colors={['#4682b4', "transparent"]}
+              style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    height: 250,
+                  }}
+            />  
         
         <View style={styles.MainContainer}>
 
-                <TextInput
-                placeholder="Search for Friends"
-                onChangeText={data => this.setState({ friend: data })}
-                style={styles.textInputStyle}
-                underlineColorAndroid='transparent'
-                />
                 <View style = {{flexDirection: "row", flex: 1}}>
+
 
                 <TouchableOpacity onPress =  {this.joinData}
                     activeOpacity={0.7} 
-                    style={styles.button} >
-        
-                <Text style={styles.buttonText}> Add Friends </Text>
-        
+                    style={styles.button2} >
+                  <LinearGradient
+                    colors={['#08d4c4', '#01ab9d']}
+                    style={styles.signIn2}>
+                    <Text style={styles.textSign}> Add Friends </Text>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress =  {this.splitEqual}
                     activeOpacity={0.7} 
-                    style={styles.button} >
-        
-                <Text style={styles.buttonText}> Split Equally </Text>
-        
+                    style={styles.button2} >
+                  <LinearGradient
+                    colors={['#08d4c4', '#01ab9d']}
+                    style={styles.signIn2}>
+                    <Text style={styles.textSign}> Split Equally </Text>
+                  </LinearGradient>
                 </TouchableOpacity>
                 </View>
 
@@ -356,151 +332,214 @@ export default class SplitExpense extends React.Component {
                 />
         
         
-            </View>
+            </View>           
+          <Animatable.View
+              animation="fadeInUpBig"
+              style={styles.footer}
+          >
+          <LinearGradient
+              colors={["#rgba(70, 130, 180, 0.5)", "transparent"]}
+              style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    borderTopLeftRadius: 30,
+                    borderTopRightRadius: 30,
+                    height: 600,
+                  }}
+            />  
+              <View style={styles.action}>
+                  <TextInput
+                      placeholderTextColor="#fff"
+                      style={styles.textInput}
+                      autoCapitalize="none"
+                      placeholder="Item"
+                      onChangeText={this.updateItem}
+                      value={text}
+                  />
 
-      <BackBtn 
-        onPress = { () =>  {
-            if (this.state.text.trim() == "" || this.state.category == "" || this.state.cost.trim() == "") {
-              alert("Cannot have empty fields!")
-              this.reset();
-            } else if (isNaN(this.state.cost) ) {
-              alert("Invalid Expense! Expense must be a number");
-              this.setState({cost: ""});    
-            } else {
-              promptUser();
-            }
-          }}> Split Expense </BackBtn>
+              </View>
+
+              <Dropdown
+                        itemCount={5}
+                        label="Category"
+                        data={data}
+                        onChangeText={this.updateCategory}
+                        value={category}
+                        baseColor= "white"
+                        textColor= "white"
+                        itemColor= "black"
+                        selectedItemColor= "rgba(70, 130, 180, 1)"
+                        containerStyle= {styles.category}
+                        labelTextStyle= {styles.textSign2}
+                        inputContainerStyle= {styles.textSign2}
+              />
+
+              <View style={styles.action}>
+                  <TextInput
+                      placeholderTextColor="#fff"
+                      style={styles.textInput}
+                      placeholder = "Cost"
+                      onChangeText = {this.updateCost}
+                      value = {cost}
+                      keyboardType = {'numeric'}
+                  />
+              </View>
+
+              <View style={styles.action}>
+                  <TextInput
+                      placeholderTextColor="#fff"
+                      style={styles.textInput}
+                      placeholder = "Friends' Username"
+                      onChangeText={data => this.setState({ friend: data })}
+                      underlineColorAndroid='transparent'
+                  />
+              </View>
+              
+              <LinearGradient
+                colors={['#08d4c4', '#01ab9d']}
+                style={styles.signIn}>
+              <BackBtn style = {styles.button}
+                onPress = { () =>  {
+                    if (this.state.text.trim() == "" || this.state.category == "" || this.state.cost.trim() == "") {
+                      alert("Cannot have empty fields!")
+                      this.reset();
+                    } else if (isNaN(this.state.cost) ) {
+                      alert("Invalid Expense! Expense must be a number");
+                      this.setState({cost: ""});    
+                    } else {
+                      promptUser();
+                    }
+                  }}> Split Expense </BackBtn>
+          </LinearGradient>
       
             
-    </ScrollView>
-    </View>
+      </Animatable.View>
+            </KeyboardAwareScrollView>
   );
 }
 }
 
 
+const {height} = Dimensions.get("screen");
+const height_logo = height * 0.28;
+
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 15,
-    flex: 1,
-    backgroundColor: '#fafafa',
-    flexDirection: 'column',
-  },
-  contentContainer: {
-    paddingTop: 15,
-    marginLeft: 20,
-    justifyContent: "center",
-    flex: 1,
-  },
-  optionIconContainer: {
-    marginRight: 12,
-  },
-  option: {
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  optionText: {
-    fontSize: 15,
-    alignSelf: 'flex-start',
-    marginTop: 1,
-  },
-  item: {
-    marginTop: 20,
-    marginBottom: 20,
-    fontSize: 15,
-    alignSelf: 'center',
-    alignContent: 'stretch',
-    textAlign: "center",
-    width: Dimensions.get("screen").width
-  },
-  category: {
-    alignSelf:'center',
-    textAlign: 'center',
-    flex: 1,
-    height: 40,
-    width: '90%',
-    borderWidth: 1,
-    borderColor: '#4CAF50',
-    borderRadius: 7,
-    marginTop: -10,
-  },
-
-  header: {
-      fontSize: 30,
-      color: 'black',
-      textAlign: 'center',
-      fontWeight: 'bold',
-  },
-  header1: {
-    marginTop: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
-    backgroundColor: 'rgba(50, 125, 255, 0.5)'
-  },
-  signIn: {
-    width: '100%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10
+    container: {
+        flex: 1,
+        backgroundColor: 'transparent'
     },
-
-    MainContainer: {
- 
+    logo: {
+        width: height_logo,
+        height: height_logo,
+        flexDirection: "column",
+        alignSelf: "center",
+    },
+    header: {
         flex: 1,
-        margin: 2
-     
-      },
-     
-      item2: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
-        flex: 3,
-      },
-     
-      textInputStyle: {
-     
-        textAlign: 'center',
-        height: 40,
-        width: '90%',
-        borderWidth: 1,
-        borderColor: '#4CAF50',
-        borderRadius: 7,
-        marginTop: 12
-      },
-     
-      button: {
-        flex: 1,
-        alignContent: "center",
-        height: 40,
-        padding: 10,
-        backgroundColor: '#4CAF50',
-        borderRadius: 8,
-        marginTop: 10
-      },
-     
-      buttonText: {
+        justifyContent: 'flex-end',
+        paddingHorizontal: 20,
+        paddingBottom: 80
+    },
+    footer: {
+        flex: 9,
+        backgroundColor: 'transparent',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingHorizontal: 80,
+        paddingVertical: -20,
+    },
+    text_header: {
+        marginTop: 10,
         color: '#fff',
-        textAlign: 'center',
-      },
-      cost: {
-        flex: 1,      
-        textAlign: 'center',
-        height: 40,
-        width: '90%',
-        borderWidth: 1,
-        borderColor: '#4CAF50',
-        borderRadius: 7,
-        marginTop: 12,
-      }
+        fontWeight: 'bold',
+        fontSize: 30
+    },
+    category: {
+        backgroundColor: "#4682b4",
+        borderRadius: 8,
+        textAlign: "center",
+    },
+    action: {
+        flexDirection: 'row',
+        borderWidth: 2,
+        padding: 10,
+        borderColor: "#4682b4",
+        borderRadius: 8,
+        marginTop: 15,
+        marginBottom: 15,
+        alignItems: "center",
+        backgroundColor: '#4682b4',
+    },
+    textInput: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        flex: 2,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 0,
+        color: "#fff",
+        alignSelf: 'center',
+        alignContent: 'stretch',
+        textAlign: "center",
+    },
+    button: {
+        alignItems: 'center',
+        backgroundColor: "transparent",
+    },
+    button2: {
+      alignItems: 'center',
+      marginTop: 20,
+      marginBottom: 10,
+      backgroundColor: "transparent",
+      flex: 1,
+  },
+    signIn: {
+        width: "120%",
+        height: 70,
+        marginTop: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: "center",
+        borderRadius: 10
+    },
+    signIn2: {
+      width: "80%",
+      height: 30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: "center",
+      borderRadius: 10
+  },
+    textSign: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        justifyContent: "center",
+        color: "white",
+        flex: 1,
+    },
+    textSign2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        justifyContent: "center",
+        paddingLeft: 60,
+    },
+    item2: {
+      padding: 10,
+      fontSize: 18,
+      height: 44,
+      flex: 3,
+    },
+    cost: {
+      flex: 1,      
+      textAlign: 'center',
+      height: 40,
+      width: '90%',
+      borderWidth: 5,
+      borderColor: 'rgb(20, 193, 164)',
+      borderRadius: 7,
+      marginTop: 12,
+    }
 });
