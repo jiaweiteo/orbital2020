@@ -311,6 +311,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         justifyContent: "center",
-        paddingLeft: 60,
+        paddingLeft: 90,
     },
 });

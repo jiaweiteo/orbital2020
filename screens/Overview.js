@@ -425,7 +425,6 @@ const styles = StyleSheet.create({
 
   cost: {
       fontSize: 25,
-      height: 30,
       height: 35,
       alignSelf: "flex-end",
       marginRight: 10,

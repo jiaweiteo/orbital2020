@@ -120,19 +120,6 @@ export default function DrawerContent(props) {
                                 navigate('Split Expense')
                             }}
                         />
-                        <DrawerItem
-                            icon={({color, size}) => (
-                                <Icon
-                                    name="application"
-                                    color={color}
-                                    size={size}
-                                />
-                            )}
-                            label="About Us"
-                            onPress={() => {
-                                const { navigate } = props.navigation
-                                navigate('Root')
-                            }}                          />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
