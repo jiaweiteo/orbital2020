@@ -3,17 +3,17 @@ Our SmartTrack Expense Tracker Github.
 
 ![SmartTrack UI](/assets/images/UI1.png)
 ![SmartTrack UI2](/assets/images/UI2.png)
+![SmartTrack UI3](/assets/images/UI3.png)
+
 
 ## SmartTrack Expenses Tracker
 
-Mobile Application that allows the user to track their expenses. 
+Mobile Application that allows the user to track their expenses with extended functionalities such as having a shared budget plan and splitting of expenses.
 Based entirely in React-Native it is compatible with ios and android devices.
 
-Current status of development as of 29 June 2020:
+Current status of development as of 23 July 2020:
 
-Functionalities of an expense tracker is completed.
-
-"Couple" expense tracking has been set up but has not been furnished.
+Mobile Application has been fully set-up
 
 
 ## Technical Information
@@ -31,10 +31,11 @@ Make sure you network connection is private and not public.
 
 1. Clone Repository
 2. `cd orbital2020`
+3. `npm install -g expo-cli` (If you already have Expo installed, you do not need to do this step)
 3. `npm i`
 4. `expo start`
 
-If expo start fails with error: (Uncaught error: java.net.SocketTimeoutException: connect timed out.), run with `expo start --tunnel`
+If expo start fails with error: (Uncaught error: java.net.SocketTimeoutException: connect timed out.), try run with `expo start --tunnel`
 
 ## Features
 
@@ -44,5 +45,7 @@ If expo start fails with error: (Uncaught error: java.net.SocketTimeoutException
 - Sort expense
 - Edit budget
 - Count percentage costs
-- Add couple to "couple" expense tracker
+- View past portfolio
+- "Couple" plan (Shared budget plan)
+- Splitting of Expenses
 
