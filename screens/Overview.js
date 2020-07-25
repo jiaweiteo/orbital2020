@@ -31,70 +31,70 @@ export default class Overview extends React.Component {
         name: "Grocery",
         population: 0,
         color: '#FF0000',
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Food and Dining",
         population: 0,
         color: "#F98AF9",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Shopping",
         population: 0,
         color: "#8516D0",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Transport",
         population: 0,
         color: "#91D0FF",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Utilites",
         population: 0,
         color: "#00FFB3",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Insurance",
         population: 0,
         color: "#0E8030",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Entertainment",
         population: 0,
         color: "#EBEB50",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Personal Care",
         population: 0,
         color: "#FFC400",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Miscellaneous",
         population: 0,
         color: "#FF7700",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
       {
         name: "Others",
         population: 0,
         color: "#EE816B",
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "#fff",
         legendFontSize: 12
       },
     ];
